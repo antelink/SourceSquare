@@ -1,0 +1,10 @@
+SourceSquare is a free (as in free beer) and free (as in free speech, licensed under GNU Affero Public Licence V3) tool, which scans a folder on your hard drive and displays a treemap that shows which part of your source code is open source.
+ 
+The treemap is a very powerful graphical visualization to display a large amount of data. It lets the eye extract important information very easily.
+
+Once the treemap is displayed on your computer, you can browse it and drill down to see more details on the subfolders. You can even publish it, to show it to everyone! (Folder names are not published, to prevent spreading confidential information.)
+No registration required. Just download and play!
+
+SourceSquare uses Antepedia, the largest database of open source projects, provided by Antelink.
+   
+Download it now, on http://www.sourcesquare.org, or download the source zip here, and share it with your friends and family!
