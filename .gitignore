@@ -8,4 +8,3 @@
 *.iws
 rootLogger.log
 target
- *src/main/java/FreddyTest.java
