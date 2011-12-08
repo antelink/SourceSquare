@@ -15383,7 +15383,7 @@ TM.Label.HTML = new Class( {
      */
     if(height_<0)
     	height_=height_*-1;
-    style.height = height_ + 'px';
+    style.height = height_*sy + 'px';
     style.zIndex = node._depth * 100;
     style.display = '';
 
