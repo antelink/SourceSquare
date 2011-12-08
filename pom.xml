@@ -3,7 +3,7 @@
 
 		<groupId>com.antelink.sourcesquare</groupId>
 
-		<version>1.0</version>
+		<version>1.0.1</version>
 
 
 	<artifactId>sourcesquare-client</artifactId>
@@ -121,6 +121,18 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>RELEASE-NOTES.txt</exclude>
+										<exclude>overview.html</exclude>
+										<exclude>README.html</exclude>
+										<exclude>about.html</exclude>
+										<exclude>META-INF/LICENSE*</exclude>
+									</excludes>
+								</filter>
+							</filters>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.antelink.sourcesquare.SourceSquare</mainClass>
