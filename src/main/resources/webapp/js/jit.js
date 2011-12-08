@@ -15376,7 +15376,14 @@ TM.Label.HTML = new Class( {
     style.left = labelPos.x + 'px';
     style.top = labelPos.y + 'px';
     style.width = node.getData('width') * sx + 'px';
-    style.height = node.getData('height') * sy + 'px';
+    
+    var height_=node.getData('height');
+    /**
+     * IE8 fix
+     */
+    if(height_<0)
+    	height_=height_*-1;
+    style.height = height_ + 'px';
     style.zIndex = node._depth * 100;
     style.display = '';
 
