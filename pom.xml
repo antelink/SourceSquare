@@ -1,22 +1,43 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-		<groupId>com.antelink.sourcesquare</groupId>
-
-		<version>1.0.1</version>
-
-
+	<groupId>com.antelink.sourcesquare</groupId>
 	<artifactId>sourcesquare-client</artifactId>
+	<version>1.0.2-SNAPSHOT</version>
+
 	<description>SourceSquare Client</description>
+
+	<organization>
+		<name>Antelink</name>
+		<url>http://www.antelink.com/</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>GNU Affero General Public License</name>
+			<url>http://www.spdx.org/licenses/AGPL-3.0</url>
+			<distribution>manual</distribution>
+			<comments>Additional permission under GNU AGPL version 3 section 7
+
+If you modify this Program, or any covered work, by linking or combining it with Eclipse Java development tools (JDT) or Jetty (or a modified version of these libraries), containing parts covered by the terms of Eclipse Public License 1.0, the licensors of this Program grant you additional permission to convey the resulting work. Corresponding Source for a non-source form of such a combination shall include the source code for the parts of Eclipse Java development tools (JDT) or Jetty used as well as that of the covered work.</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/antelink/SourceSquare.git</connection>
+		<developerConnection>scm:git:git@github.com:antelink/SourceSquare.git</developerConnection>
+		<url>https://github.com/antelink/SourceSquare</url>
+	</scm>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 
 	<properties>
 		<timestamp>${maven.build.timestamp}</timestamp> <!-- Workaround MRESOURCES-99 -->
 	</properties>
 
 	<dependencies>
-
-
-
 		<dependency>
 			 <groupId>com.jgoodies</groupId>
 			<artifactId>forms</artifactId>
@@ -94,8 +115,42 @@
 	</dependencies>
 
 	<build>
-		<resources>
+		<!-- Set versions and config of a few useful plugins -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.11</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.1.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<!-- Resource filtering to replace variables in about.html  -->
+		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<excludes>
@@ -144,5 +199,19 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- Private Maven repository -->
+	<distributionManagement>
+		<repository>
+			<id>maven-nexus.antelink.net</id>
+			<url>https://maven-nexus.antelink.net/content/repositories/releases/</url>
+			<name>Antelink Central</name>
+		</repository>
+		<snapshotRepository>
+			<id>maven-nexus.antelink.net</id>
+			<url>https://maven-nexus.antelink.net/content/repositories/snapshots/</url>
+			<name>Antelink Central</name>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
