@@ -1,0 +1,100 @@
+/**
+ * Copyright (C) 2009-2011 Antelink SAS
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License Version 3 as published
+ * by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License Version 3
+ * for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License Version
+ * 3 along with this program. If not, see http://www.gnu.org/licenses/agpl.html
+ *
+ * Additional permission under GNU AGPL version 3 section 7
+ *
+ * If you modify this Program, or any covered work, by linking or combining it with
+ * Eclipse Java development tools (JDT) or Jetty (or a modified version of these
+ * libraries), containing parts covered by the terms of Eclipse Public License 1.0,
+ * the licensors of this Program grant you additional permission to convey the
+ * resulting work. Corresponding Source for a non-source form of such a combination
+ * shall include the source code for the parts of Eclipse Java development tools
+ * (JDT) or Jetty used as well as that of the covered work.
+ */
+/* ------------------------------
+Specific styles for the home page
+---------------------------------*/
+
+#global-width {
+	margin: 0 auto;
+	width: 600px;
+}
+
+
+
+/* =Header
+----------*/
+
+#header {
+	height: 90px;
+	margin-top: 55px;
+	margin-bottom: 60px;
+}
+
+
+
+/* =Content
+----------*/
+
+#content {
+	padding: 10px 18px 13px 0;
+	position: relative;
+	overflow:hidden;
+}
+
+.column {
+	float: left;
+	text-align: center;
+	width: 270px;
+	height: 270px;
+}
+
+#graph-total {
+	margin:	0 auto;
+	width: 90px;
+	height: 230px;
+}
+
+#graph-opensource {
+	margin:	0 auto;
+	margin-top: 10px;
+	margin-bottom: 13px;
+	vertical-align: center;
+	width: 210px;
+	height: 210px;
+}
+
+#graph-total-figure {
+	display: block;
+	font-size: 15px;
+	font-weight: bold;
+	height: 290px;
+}
+
+
+#scanning {
+	background-color: #8d8d8d;
+	color: #fff;
+	margin: 20px 50px 0 70px;
+	padding: 8px 0;
+}
+
+
+/* =Footer
+----------*/
+
+#footer {
+	margin-top: 40px;
+}

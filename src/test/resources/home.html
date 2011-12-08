@@ -1,0 +1,196 @@
+<!--
+
+    Copyright (C) 2009-2011 Antelink SAS
+
+    This program is free software; you can redistribute it and/or modify it under
+    the terms of the GNU Affero General Public License Version 3 as published
+    by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License Version 3
+    for more details.
+
+    You should have received a copy of the GNU Affero General Public License Version
+    3 along with this program. If not, see http://www.gnu.org/licenses/agpl.html
+
+    Additional permission under GNU AGPL version 3 section 7
+
+    If you modify this Program, or any covered work, by linking or combining it with
+    Eclipse Java development tools (JDT) or Jetty (or a modified version of these
+    libraries), containing parts covered by the terms of Eclipse Public License 1.0,
+    the licensors of this Program grant you additional permission to convey the
+    resulting work. Corresponding Source for a non-source form of such a combination
+    shall include the source code for the parts of Eclipse Java development tools
+    (JDT) or Jetty used as well as that of the covered work.
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>SourceSquare</title>
+
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/jit.js"></script>
+<script type="text/javascript" src="js/introCharts.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link type="text/css" href="css/shaper.css" rel="stylesheet" />
+
+</head>
+
+
+<body>
+<div id="sandbox"></div>
+<div id="sandbox2"></div>
+		<div id="global-width">
+			<div id="header">
+				<div class="brackets">
+					<div id="logo" class="in-brackets">
+						<!-- Logo -->
+					</div>
+				</div>
+				<p id="catch-line">Find out if you are<br />an <span class="blue">open source</span> freak or not!</p>
+			</div><!--/header-->
+			
+			<div id="wrapper">
+				<div class="brackets">
+					<div class="in-brackets">
+					<div id="content"> 
+						<div class="column">
+							<strong>Total Files</strong><span id="counter-total" class="counter"> 0 </span>
+							<div id="graph-total">
+								<span id="graph-total-figure"> </span>
+							</div>
+						</div>
+						<div class="column">
+							<strong>Open Source Files</strong><span id="counter-opensource" class="counter"> 0 </span>
+							<div id="graph-opensource">
+								<span id="graph-opensource-figure"> </span>
+							</div>
+							<div id="scanning"><span id="scanningtext">INITIALIZING</span><span id="countdots" class="countdots">...</span></div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div><!--/wrapper-->
+			
+			<div id="footer">
+				<div id="footer-logo"><!-- Antelink logo --></div>
+				<ul>
+					<li> Power by Antedepia </li>
+					<li> Produced by Antelink - <a href="#" > License Agreement </a></li>
+					<li> Antepedia Suite </li>
+				</ul>
+			</div><!--/footer-->
+		</div><!--/global-width-->
+	</body>
+
+<script type="text/javascript">
+	var continue_ = true;
+	var pieChart;
+	var barChart;
+	var rate=10;
+	var progress_oss=0;
+	var initTime=new Date();
+	
+	function lengthTimer(){
+		var timeDiff=(new Date()-initTime)/1000;
+		$("#sandbox").text(timeDiff);
+		var seconds = Math.floor(timeDiff % 60);
+		var minutes = Math.floor(timeDiff/60);
+		$("#sandbox2").text(minutes);
+		var strMinutes;
+		var strSeconds;
+		if(seconds>9){
+			strSeconds=""+seconds;
+		}
+		else{
+			strSeconds="0"+seconds;
+		}
+		if(minutes>9){
+			strMinutes=""+minutes;
+		}
+		else{
+			strMinutes="0"+minutes;
+		}
+		$("#countdots").text(" for "+strMinutes+":"+strSeconds);
+	}
+	
+	function movePoints(){
+		var count=$("#countdots").text().length;
+		switch(count){
+		case 3:
+			$("#countdots").text(".");
+			break;
+		case 2:
+			$("#countdots").text("...");
+			break;
+		case 1:
+			$("#countdots").text("..");
+			break;
+		}
+	}
+	
+	function executeQuery() {
+			var json = {
+		    	'color': ['#1BA2FF','#e6e6e6'], 
+		        'label': ['Files'],
+		        'values': [
+		        {
+		          'label': 'op',
+		          'values': [rate]
+		        }, 
+		        {
+		          'label': 'nop',
+		          'values': [100-rate]
+		        } 
+		       ]  
+		    };
+		var json2 = {
+				'color' : [ '#9C470E', '#e6e6e6' ],
+				'label' : [ 'Progress','Left'],
+				'values' : [ {
+					'label' : 'Progress',
+					'values' : [ Math.round(rate), Math.round(100-rate) ]
+				} ]
+
+			};
+		pieChart.updateJSON(json);
+		barChart.updateJSON(json2);
+		rate=rate+2;
+		if(rate==1000)
+			return;
+		//movePoints();
+		lengthTimer();
+		setTimeout("executeQuery()", 1000);
+	}
+
+	$(document).ready(function() {
+/* 		$("#progressbar2").progressbar({
+			value : 1
+		});
+		$("#progressbar1").progressbar({
+			value : 1
+		}); */
+		pieChart=pieChart({
+			'color' : [ '#1BA2FF', '#e6e6e6' ],
+			'label' : [ 'Open Source'],
+			'values' : [ {
+				'label' : 'op',
+				'values' : [ 0.1 ]
+			}, {
+				'label' : 'nop',
+				'values' : [ 100 ]
+			} ]
+		});
+		barChart=barChart();
+
+		/* setTimeout("executeQuery()", 100); */
+
+	});
+</script>
+</html>

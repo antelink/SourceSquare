@@ -1,0 +1,80 @@
+/**
+ * Copyright (C) 2009-2011 Antelink SAS
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License Version 3 as published
+ * by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License Version 3
+ * for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License Version
+ * 3 along with this program. If not, see http://www.gnu.org/licenses/agpl.html
+ *
+ * Additional permission under GNU AGPL version 3 section 7
+ *
+ * If you modify this Program, or any covered work, by linking or combining it with
+ * Eclipse Java development tools (JDT) or Jetty (or a modified version of these
+ * libraries), containing parts covered by the terms of Eclipse Public License 1.0,
+ * the licensors of this Program grant you additional permission to convey the
+ * resulting work. Corresponding Source for a non-source form of such a combination
+ * shall include the source code for the parts of Eclipse Java development tools
+ * (JDT) or Jetty used as well as that of the covered work.
+ */
+.container {
+    width: 1600px;
+    height: 600px;
+}
+
+.right-container {
+   width:500px;
+   height: 600px;
+   padding-left:10px;
+   float: left;
+
+}
+
+.left-container {
+  width:  1000px;
+  height: 600px;
+  float: left;
+}
+
+
+
+#treemap {
+	position:relative;
+  	width:1000px;
+    height:600px;	
+    overflow:hidden;
+}
+
+.node {
+/*   color:#fff;
+  font-size:9px;
+  overflow:hidden;
+  cursor:pointer; */
+
+/*   text-shadow:2px 2px 5px #000;
+  -o-text-shadow:2px 2px 5px #000;
+  -webkit-text-shadow:2px 2px 5px #000;
+  -moz-text-shadow:2px 2px 5px #000; */
+}
+
+/*TOOLTIPS*/
+.tip {
+    color: #111;
+    background-color: white;
+    border:1px solid #ccc;
+    -moz-box-shadow:#555 2px 2px 8px;
+    -webkit-box-shadow:#555 2px 2px 8px;
+    -o-box-shadow:#555 2px 2px 8px;
+    box-shadow:#555 2px 2px 8px;
+    opacity:0.9;
+    filter:alpha(opacity=90);
+    font-size:10px;
+    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+    padding:7px;
+}

@@ -1,0 +1,217 @@
+/**
+ * Copyright (C) 2009-2011 Antelink SAS
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License Version 3 as published
+ * by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License Version 3
+ * for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License Version
+ * 3 along with this program. If not, see http://www.gnu.org/licenses/agpl.html
+ *
+ * Additional permission under GNU AGPL version 3 section 7
+ *
+ * If you modify this Program, or any covered work, by linking or combining it with
+ * Eclipse Java development tools (JDT) or Jetty (or a modified version of these
+ * libraries), containing parts covered by the terms of Eclipse Public License 1.0,
+ * the licensors of this Program grant you additional permission to convey the
+ * resulting work. Corresponding Source for a non-source form of such a combination
+ * shall include the source code for the parts of Eclipse Java development tools
+ * (JDT) or Jetty used as well as that of the covered work.
+ */
+/* --------------------------
+Common styles for every pages
+-----------------------------*/
+
+
+/* =Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
+-------------------------------------------------------------- */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	background: transparent;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+}
+h1, h2, h3, h4, h5, h6 {
+	clear: both;
+	font-weight: normal;
+}
+ol, ul {
+	list-style: none;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+a img {
+	border: none;
+}
+a,
+a:hover {
+	outline: none;
+}
+
+/* ---------
+End reset */
+
+
+/* Common style 
+---------------*/
+
+strong {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.blue {
+	color: #1BA2FF;
+}
+
+a {
+	color: #1BA2FF;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #008ae9;
+}
+
+.button {
+	background-color: #1BA2FF;
+	color: #fff;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 8px 18px;
+}
+
+.button:hover {
+	background-color: #0094fb;
+	color: #fff;
+	font-weight: bold;
+	padding: 8px 18px;
+}
+
+/* Layout 
+---------------*/
+
+body {
+	background-color: #fff;
+	border-top: 7px solid #1BA2FF;
+	font-family: Arial;
+	font-size: 13px;
+}
+
+#wrapper {
+	position: relative;
+}
+
+.brackets {
+	border: 6px solid #e6e6e6;
+	padding: 0 6px;
+	position: relative;
+	
+}
+
+.in-brackets {
+	background-color: #fff;
+	margin: -6px 0;
+	position: relative;
+}
+
+#counter-total, #counter-opensource {
+	display: inline-block;
+	background: url(../images/sprite.png) #8d8d8d top left no-repeat;
+	background-position: -122px -24px;
+	color: #fff;
+	font-size: 13px;
+	font-style: italic;
+	font-weight: normal;
+	margin-left: 5px;
+	padding: 2px 2px 2px 7px;
+	vertical-align: 10%;
+	text-align: center;
+	width: 60px;
+	height:  13px;
+}
+
+
+
+/* =Header
+----------*/
+
+#header {
+	position: relative;
+}
+
+#header .brackets {
+	width: 295px;
+}
+
+#logo {
+	background: url(../images/sprite.png) top left no-repeat;
+	background-position: 0 -90px; 
+	width: 295px;
+	height: 78px;
+}
+
+p#catch-line {
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 23px;
+	margin-left: 350px;
+	padding-top: 24px;
+	position: absolute;
+	top: 0px;
+}
+
+
+
+/* =Footer
+----------*/
+#footer {
+	height: 60px;
+	margin-top: 20px;
+	position: relative;
+}
+
+#footer-logo{
+	background: url(../images/sprite.png) top left no-repeat;
+	background-position: 0 0;
+	height: 60px;
+	width: 71px;
+}
+
+#footer ul {
+	font-size: 11px;
+	padding-top: 35px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#footer ul li {
+	display: inline;
+	padding: 0 11px;
+}
+
+#footer ul li:last-child {
+	padding-right: 0;
+}
