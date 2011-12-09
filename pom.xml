@@ -167,6 +167,31 @@ If you modify this Program, or any covered work, by linking or combining it with
 		</resources>
 
 		<plugins>
+			<!-- Check that license header is there on all source files -->
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<executions>
+					<execution>
+						<id>check-header</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<strictCheck>true</strictCheck>
+					<header>${basedir}/src/main/header.txt</header>
+					<excludes>
+						<exclude>**/*.txt</exclude>
+						<exclude>.gitignore</exclude>
+						<exclude>README</exclude>
+						<exclude>src/test/resources/toScan/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
 			<!-- Create packaging -->
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
