@@ -38,7 +38,12 @@ import java.net.URISyntaxException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class CopyrightPanel extends JPanel {
+
+    private final static Log logger = LogFactory.getLog(CopyrightPanel.class);
 
     /**
      * 
@@ -49,7 +54,8 @@ public class CopyrightPanel extends JPanel {
 
     public CopyrightPanel() {
         super();
-        this.copyright = new JLabel("<html>Powered by <a href=\"\" style=\"cursor:pointer;\">Antepedia<a/>, an <a href=\"\" style=\"cursor:pointer;\">Antelink</a> product - </html>");
+        this.copyright = new JLabel(
+                "<html>Powered by <a href=\"\" style=\"cursor:pointer;\">Antepedia<a/>, an <a href=\"\" style=\"cursor:pointer;\">Antelink</a> product - </html>");
         this.copyright.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
         this.copyright.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.copyright.addMouseListener(new MouseListener() {
@@ -71,9 +77,9 @@ public class CopyrightPanel extends JPanel {
                 try {
                     Desktop.getDesktop().browse(new URI("http://www.antelink.com/"));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Error opening the browser", e);
                 } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                    logger.error("Error opening the browser", e);
                 }
             }
         });
@@ -99,9 +105,9 @@ public class CopyrightPanel extends JPanel {
                 try {
                     Desktop.getDesktop().browse(new URI("https://sourcesquare.antepedia.com/about.html"));
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    logger.error("Error opening the browser", ex);
                 } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
+                    logger.error("Error opening the browser", ex);
                 }
             }
         });

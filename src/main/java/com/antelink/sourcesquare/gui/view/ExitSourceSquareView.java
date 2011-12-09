@@ -29,7 +29,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -49,9 +48,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.antelink.sourcesquare.server.ServerController;
 
 public class ExitSourceSquareView extends JFrame {
+
+    private final static Log logger = LogFactory.getLog(ExitSourceSquareView.class);
 
     /**
      * 
@@ -60,23 +64,6 @@ public class ExitSourceSquareView extends JFrame {
     private final JPanel contentPane;
     private JPanel mainPanel;
     private final JLabel exitButtonLabel;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ExitSourceSquareView frame = new ExitSourceSquareView();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     /**
      * Create the frame.
@@ -95,8 +82,10 @@ public class ExitSourceSquareView extends JFrame {
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(Color.WHITE);
         GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
-        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
-        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(
+                this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
+        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(
+                this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         JPanel panel_1 = new JPanel();
@@ -108,15 +97,18 @@ public class ExitSourceSquareView extends JFrame {
         panel.setBackground(Color.WHITE);
         panel_1.add(panel, BorderLayout.SOUTH);
 
-        Image exitButtonImage = Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/ExitButton.png"));
+        Image exitButtonImage = Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/ExitButton.png"));
         this.exitButtonLabel = new JLabel(new ImageIcon(exitButtonImage));
         this.exitButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         panel.add(this.exitButtonLabel);
 
-        JLabel exitLabel = new JLabel("<html><b>Close this window or click \"Exit\" to quit the application.</b>\n</html>");
+        JLabel exitLabel = new JLabel(
+                "<html><b>Close this window or click \"Exit\" to quit the application.</b>\n</html>");
         exitLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
 
-        JLabel browserLabel = new JLabel("<html>To see the results go to <a href=\"" + ServerController.URL + "\">" + ServerController.URL + "</a><br><br>\n</html>");
+        JLabel browserLabel = new JLabel("<html>To see the results go to <a href=\"" + ServerController.URL + "\">"
+                + ServerController.URL + "</a><br><br>\n</html>");
         browserLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
         browserLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         browserLabel.addMouseListener(new MouseListener() {
@@ -150,9 +142,9 @@ public class ExitSourceSquareView extends JFrame {
                 try {
                     Desktop.getDesktop().browse(new URI("http://localhost:9524/"));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Error opening the browser", e);
                 } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                    logger.error("Error opening the browser", e);
                 }
             }
         });
