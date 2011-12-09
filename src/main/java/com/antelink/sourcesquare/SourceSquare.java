@@ -80,7 +80,7 @@ public class SourceSquare {
             final File toScan = new File(args[0]);
 
             eventBus.fireEvent(new StartScanEvent(toScan));
-            
+
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "SourceSquare");
 
@@ -92,13 +92,13 @@ public class SourceSquare {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                logger.info("Error launching the UI", e);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                logger.info("Error launching the UI", e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                logger.info("Error launching the UI", e);
             } catch (UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
+                logger.info("Error launching the UI", e);
             }
             SourceSquareView view = new SourceSquareView();
             SourceSquareController controller = new SourceSquareController(view, eventBus);
