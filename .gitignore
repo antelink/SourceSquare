@@ -8,3 +8,13 @@
 *.iws
 rootLogger.log
 target
+
+.metadata/.lock
+
+.metadata/.mylyn/repositories.xml.zip
+
+.metadata/.log
+
+.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.version
+
+.metadata/.plugins/org.eclipse.core.resources/.root/2.tree
