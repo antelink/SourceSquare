@@ -192,6 +192,15 @@ If you modify this Program, or any covered work, by linking or combining it with
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<runOrder>alphabetical</runOrder>
+				</configuration>
+			</plugin>
+
 			<!-- Create packaging -->
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
