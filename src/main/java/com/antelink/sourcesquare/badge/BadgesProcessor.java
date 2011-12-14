@@ -117,6 +117,7 @@ public class BadgesProcessor {
             add("mst");
         }
     };
+    
     private List<String> imageExt = new LinkedList<String>() {
         private static final long serialVersionUID = -2193101699205237182L;
         {

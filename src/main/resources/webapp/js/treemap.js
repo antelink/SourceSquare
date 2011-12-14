@@ -215,6 +215,12 @@ function drawTreemap(json, option, nodeLevel) {
 						tm.enter(node);
 					}
 				}
+				else{
+					var parents = node.getParents();
+					if (parents.length != 0) {
+						tm.enter(parents[0]);
+					}
+				}
 				tm.refresh();
 			},
 			onRightClick : function() {

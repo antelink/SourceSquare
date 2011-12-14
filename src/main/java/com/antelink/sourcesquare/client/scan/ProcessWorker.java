@@ -45,13 +45,31 @@ public class ProcessWorker {
     private final SourceSquareEngine engine;
 
     private static final Log logger = LogFactory.getLog(ProcessWorker.class);
+    /**
+     * current worker identifier
+     */
     private final int id;
+    
+    /**
+     *  determines whether the worker is available or note
+     */
     private boolean status = true;
 
+    /**
+     * number of retries before the worker gives up
+     */
     private static int RETRIES = 3;
 
     private final Object lock;
+    
+    private Thread executor;
 
+    /**
+     * 
+     * @param i id of this worker
+     * @param engine external communication engine
+     * @param lock lock to be notified when this engine finishes its work.
+     */
     public ProcessWorker(int i, SourceSquareEngine engine, Object lock) {
         this.engine = engine;
         this.lock = lock;
@@ -64,7 +82,7 @@ public class ProcessWorker {
      * @param tempMap
      *            a map containing a set of tuples (filename,hash)
      */
-    public void process(final HashMap<String, String> tempMap) {
+    public synchronized void process(final HashMap<String, String> tempMap) {
 
         this.status = false;
 
@@ -86,9 +104,8 @@ public class ProcessWorker {
                 }
             }
         };
-        Thread executor = new Thread(runner);
+        executor = new Thread(runner);
         executor.start();
-
     }
 
     private void analyzeMapWithCount(int times, HashMap<String, String> tempMap) throws Exception {
@@ -96,10 +113,9 @@ public class ProcessWorker {
             logger.debug("pass " + times + ": analyzing files " + tempMap.values());
             this.engine.discover(tempMap);
         } catch (Exception e) {
-            logger.error("Error while analyzing", e);
-
-            if (times > RETRIES || !isAvailable()) {
-                logger.debug(RETRIES + " time retry done... giving up!");
+            logger.debug("Error while analyzing", e);
+            if (times > RETRIES) {
+                logger.error(RETRIES + " time retry done... giving up!");
                 throw e;
             } else {
                 logger.debug("retrying...");
@@ -108,8 +124,12 @@ public class ProcessWorker {
         }
     }
 
-    public boolean isAvailable() {
+    public synchronized boolean isAvailable() {
         return this.status;
     }
+
+	public synchronized Thread getExecutor() {
+		return executor;
+	}
 
 }
