@@ -27,6 +27,9 @@ package com.antelink.sourcesquare.results;
 
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.antelink.sourcesquare.SourceSquareResults;
 import com.antelink.sourcesquare.badge.BadgesProcessor;
 import com.antelink.sourcesquare.event.base.EventBus;
@@ -36,12 +39,15 @@ import com.antelink.sourcesquare.event.handlers.ScanCompleteEventHandler;
 
 public class ResultBuilder {
 
+    private static final Log logger = LogFactory.getLog(ResultBuilder.class);
+
     private static final long NODE_LIMIT = 700;
-	private final EventBus eventBus;
+    private final EventBus eventBus;
     private final TreeMapBuilder treemap;
     private final BadgesProcessor badgesProcessor;
 
     private ArrayList<Integer> levels;
+
     public ResultBuilder(EventBus eventbus, TreeMapBuilder treemap) {
         this.eventBus = eventbus;
         this.treemap = treemap;
@@ -53,37 +59,33 @@ public class ResultBuilder {
 
         this.eventBus.addHandler(ScanCompleteEvent.TYPE, new ScanCompleteEventHandler() {
 
-
-
-			@Override
+            @Override
             public String getId() {
                 return getClass().getCanonicalName() + ": " + ScanCompleteEventHandler.class.getName();
             }
 
             @Override
-
             public void handle(ArrayList<Integer> levels) {
-                System.out.println("process results");
-                ResultBuilder.this.levels=levels;
+                logger.info("Process results");
+                ResultBuilder.this.levels = levels;
                 ResultBuilder.this.processResults();
             }
         });
     }
-    
-    private void analyzeTreeMapLevels(SourceSquareResults results){
-    	long cumulated=0;
-    	int nodeLevel=0;
-    	for(int i=0;i<levels.size();i++){
-    		cumulated=cumulated+levels.get(i);
-    		if(cumulated>NODE_LIMIT){
-    			nodeLevel=i;
-    			break;
-    		}
-    		else{
-    			nodeLevel=i+1;
-    		}
-    	}
-    	results.setNodeLevel(nodeLevel);
+
+    private void analyzeTreeMapLevels(SourceSquareResults results) {
+        long cumulated = 0;
+        int nodeLevel = 0;
+        for (int i = 0; i < this.levels.size(); i++) {
+            cumulated = cumulated + this.levels.get(i);
+            if (cumulated > NODE_LIMIT) {
+                nodeLevel = i;
+                break;
+            } else {
+                nodeLevel = i + 1;
+            }
+        }
+        results.setNodeLevel(nodeLevel);
     }
 
     protected void processResults() {

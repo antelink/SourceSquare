@@ -76,12 +76,12 @@ public class EmbeddedServer {
         logger.debug("adding webhandler");
         getClass().getClassLoader();
         this.webContext = new WebAppContext(ClassLoader.getSystemResource("webapp/").toExternalForm(), "/");
-        FilterHolder resultFilter=new FilterHolder(new ResultFilter(eventBus));
+        FilterHolder resultFilter = new FilterHolder(new ResultFilter(this.eventBus));
         this.webContext.addFilter(resultFilter, "/result.jsp", 1);
 
         logger.debug("loading: " + ClassLoader.getSystemResource("webapp/").toExternalForm());
         this.contexts.addHandler(this.webContext);
-        
+
         logger.debug("adding status servlet");
         ServletHolder statusService = new ServletHolder(new StatusServlet());
         this.servletContext.addServlet(statusService, "/status");
@@ -93,18 +93,18 @@ public class EmbeddedServer {
         logger.debug("adding shutdown servlet");
         ServletHolder shutdownService = new ServletHolder(this.shutdownServlet);
         this.servletContext.addServlet(shutdownService, "/shutdown");
-        
-        logger.debug("adding shutdown servlet");
+
+        logger.debug("adding time servlet");
         ServletHolder timeService = new ServletHolder(new TimeServlet((new Date()).getTime()));
         this.servletContext.addServlet(timeService, "/time");
-        
+
         this.contexts.addHandler(this.servletContext);
-        
-        ErrorHandler errorHandler=new ErrorHandler();
-        
+
+        ErrorHandler errorHandler = new ErrorHandler();
+
         this.webContext.setErrorHandler(errorHandler);
         this.servletContext.setErrorHandler(errorHandler);
-        
+
         this.jetty.setHandler(this.contexts);
 
         bind();
