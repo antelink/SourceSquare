@@ -66,7 +66,7 @@ public class SourceSquareFSWalker {
 
     private final Object lock;
 
-    long total = 0;
+    private long total = 0;
 
     public SourceSquareFSWalker(SourceSquareEngine engine, EventBus eventBus, TreeMapBuilder treemap) {
         this.eventBus = eventBus;
