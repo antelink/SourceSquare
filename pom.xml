@@ -100,6 +100,7 @@ If you modify this Program, or any covered work, by linking or combining it with
 			<version>2.1</version>
 		</dependency>
 
+		<!--  Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -110,6 +111,18 @@ If you modify this Program, or any covered work, by linking or combining it with
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jwebunit</groupId>
+			<artifactId>jwebunit-htmlunit-plugin</artifactId>
+			<version>3.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -193,6 +206,14 @@ If you modify this Program, or any covered work, by linking or combining it with
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<runOrder>alphabetical</runOrder>
+				</configuration>
+			</plugin>
+
 			<!-- Create packaging -->
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -241,5 +262,35 @@ If you modify this Program, or any covered work, by linking or combining it with
 			<name>Antelink Central</name>
 		</snapshotRepository>
 	</distributionManagement>
+
+	<profiles>
+		<profile>
+			<id>funtest</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>runtest</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<includes combine.children="append">
+										<include>**/*IT.java</include>
+									</includes>
+									<systemPropertyVariables>
+										<executable.file>${project.build.directory}/${project.build.finalName}.jar</executable.file>
+									</systemPropertyVariables>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
