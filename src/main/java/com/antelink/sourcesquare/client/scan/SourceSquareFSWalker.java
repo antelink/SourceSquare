@@ -118,6 +118,7 @@ public class SourceSquareFSWalker {
         Iterator<File> iterator = fileSet.iterator();
         logger.debug(fileSet.size() + " files to analyze");
         long count = 0;
+        long timer = System.currentTimeMillis();
         while (iterator.hasNext()) {
 
             File file = iterator.next();
@@ -130,8 +131,9 @@ public class SourceSquareFSWalker {
                 logger.error("skipping files " + file, e);
             }
 
-            if (toAnalyze.size() == this.filePerQuery) {
+            if (toAnalyze.size() == this.filePerQuery || System.currentTimeMillis() - timer > 10000) {
                 // dispatch analysis
+                timer = System.currentTimeMillis();
                 analyzeMap(toAnalyze);
                 this.filePerQuery = Math.min(MAX_FILE_PER_QUERY, this.filePerQuery * 2);
                 logger.trace("new counter: " + count);

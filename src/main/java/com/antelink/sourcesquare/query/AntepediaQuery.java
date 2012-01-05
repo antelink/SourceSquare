@@ -62,10 +62,13 @@ public class AntepediaQuery extends RestClient {
             JsonMappingException, IOException {
         try {
             String queryUrl = this.locations.getBinaryBatchQueryUrl();
-            logger.info("contacting server " + queryUrl);
             ObjectMapper mapper = new ObjectMapper();
             String map = mapper.writeValueAsString(hashes);
-            return getTemplate(this.locations.getBaseDomain()).postForObject(queryUrl, map, ResponseObject.class);
+            logger.info("contacting server " + queryUrl);
+            ResponseObject postForObject = getTemplate(this.locations.getBaseDomain()).postForObject(queryUrl, map,
+                    ResponseObject.class);
+            logger.info("response received");
+            return postForObject;
         } catch (UnsupportedEncodingException e) {
             logger.error("Error contacting the server", e);
             return null;

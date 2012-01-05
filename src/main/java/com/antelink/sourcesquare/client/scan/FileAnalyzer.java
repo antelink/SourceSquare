@@ -67,7 +67,7 @@ public class FileAnalyzer {
         FileInputStream fis = null;
         BufferedInputStream inputStream = null;
         try {
-            logger.trace("Calculating sha1 for file " + fileToAnalyze);
+            logger.debug("Calculating sha1 for file " + fileToAnalyze.getName());
             fis = new FileInputStream(fileToAnalyze);
             inputStream = new BufferedInputStream(fis);
             MessageDigest digest = MessageDigest.getInstance(hashType);
@@ -78,7 +78,7 @@ public class FileAnalyzer {
             }
 
             String hash = new String(Hex.encodeHex(digest.digest()));
-            logger.trace(hashType + " is: " + hash);
+            logger.debug("Sha1 calculated for file " + fileToAnalyze.getName());
             return hash;
         } finally {
             IOUtils.closeQuietly(inputStream);
