@@ -181,6 +181,7 @@ function drawTreemap(json, option, nodeLevel) {
 	 * prepare treemap
 	 */
 	var pjson = clone(json);
+	var ijson = clone(json);
 	var labelType, useGradients, nativeTextSupport, animate;
 	(function() {
 		var ua = navigator.userAgent, iStuff = ua.match(/iPhone/i)
@@ -254,8 +255,15 @@ function drawTreemap(json, option, nodeLevel) {
 				} else {
 					name = getFullPath(node, tm.clickedNode);
 				}
-				var nbFiles = $jit.json.getSubtree(tm.json,node.id).cumulatedFiles;
-				var nbOSFiles = $jit.json.getSubtree(tm.json,node.id).cumulatedOSFiles;
+				var nbFiles;
+				var nbOSFiles;
+				if($jit.json.getSubtree(ijson,node.id)){
+					nbFiles = $jit.json.getSubtree(ijson,node.id).cumulatedFiles;
+					nbOSFiles = $jit.json.getSubtree(ijson,node.id).cumulatedOSFiles;
+				}else{
+					nbFiles = 0;
+					nbOSFiles = 0;
+				}
 				if (option) {
 					var html = '<div><i>' + name +'</i><span style="font-size:10px;"><div>&#35; Files: '+nbFiles+' <b>*</b></div><div>&#35; Open source files: '+nbOSFiles+ ' <b>*</b></span></div></div>';
 					//var html = "<div>"+ name+"</div>";
