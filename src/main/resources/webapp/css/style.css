@@ -152,6 +152,21 @@ body {
 	text-align:right;
 }
 
+#advertising {
+	margin-top: -20px;
+	height: 15px;
+	margin-bottom: 5px;
+	text-align: left;
+	font-size: 12;
+	width: 282px;
+	font-weight: bold;
+	vertical-align: bottom;
+	
+}
+#advertising .a {
+	
+}
+
 
 
 /* =Header
