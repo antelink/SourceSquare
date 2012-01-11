@@ -141,6 +141,7 @@ function getFullPath(node, clickedNode) {
 
 	return names;
 }
+
 function clone(obj) {
 	// Handle the 3 simple types, and null or undefined
 	if (null == obj || "object" != typeof obj)
@@ -253,8 +254,11 @@ function drawTreemap(json, option, nodeLevel) {
 				} else {
 					name = getFullPath(node, tm.clickedNode);
 				}
+				var nbFiles = $jit.json.getSubtree(tm.json,node.id).cumulatedFiles;
+				var nbOSFiles = $jit.json.getSubtree(tm.json,node.id).cumulatedOSFiles;
 				if (option) {
-					var html = "<div>" + name + "</div>";
+					var html = '<div><i>' + name +'</i><span style="font-size:10px;"><div>&#35; Files: '+nbFiles+' <b>*</b></div><div>&#35; Open source files: '+nbOSFiles+ ' <b>*</b></span></div></div>';
+					//var html = "<div>"+ name+"</div>";
 					tip.innerHTML = html;
 				}
 			},

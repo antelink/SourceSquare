@@ -122,14 +122,26 @@ p {
 	padding: 10px;
 	position: absolute;
 	left: 0;
-	text-align: right;
-	z-index: 100;	
+	text-align: left;
+	z-index: 100;
+	width: 250px;
+	
 }
 
 #badge-3,
 #badge-5,
 #badge-7 {
 	margin-left: 10px;
+}
+
+#badge-2:hover .ttip,
+#badge-4:hover .ttip,
+#badge-6:hover .ttip,
+#badge-8:hover .ttip {
+	position: absolute;
+	text-align: right;
+	right: 0;
+	left: auto;
 }
 
 #counter-opensource {

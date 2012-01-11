@@ -139,17 +139,32 @@ body {
 #counter-total, #counter-opensource {
 	display: inline-block;
 	background: url(../images/sprite.png) #8d8d8d top left no-repeat;
-	background-position: -122px -24px;
+	background-position: -97px -24px;
 	color: #fff;
 	font-size: 13px;
 	font-style: italic;
 	font-weight: normal;
 	margin-left: 5px;
-	padding: 2px 2px 2px 7px;
+	padding: 2px 10px 2px 7px;
 	vertical-align: 10%;
-	text-align: center;
-	width: 60px;
+	width: 90px;
 	height:  13px;
+	text-align:right;
+}
+
+#advertising {
+	margin-top: -20px;
+	height: 15px;
+	margin-bottom: 5px;
+	text-align: left;
+	font-size: 12;
+	width: 282px;
+	font-weight: bold;
+	vertical-align: bottom;
+	
+}
+#advertising .a {
+	
 }
 
 
