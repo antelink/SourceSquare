@@ -70,7 +70,7 @@
 					<div id="content">
 						<div class="column">
 							<strong>Total Files</strong><span id="counter-total"
-								class="counter"> 0 </span>
+								class="counter" > 0 </span>
 							<div id="graph-total">
 								<span id="graph-total-figure"> </span>
 							</div>
