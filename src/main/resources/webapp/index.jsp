@@ -112,22 +112,26 @@
 		});
 	}
 	function lengthTimer(timeDiffmillis) {
-		var timeDiff = timeDiffmillis / 1000;
-		var seconds = Math.floor(timeDiff % 60);
-		var minutes = Math.floor(timeDiff / 60);
-		var strMinutes;
-		var strSeconds;
-		if (seconds > 9) {
-			strSeconds = "" + seconds;
-		} else {
-			strSeconds = "0" + seconds;
+		if(timeDiffmillis==0){
+			$("#countdots").text(" --:--");
+		}else{
+			var timeDiff = timeDiffmillis / 1000;
+			var seconds = Math.floor(timeDiff % 60);
+			var minutes = Math.floor(timeDiff / 60);
+			var strMinutes;
+			var strSeconds;
+			if (seconds > 9) {
+				strSeconds = "" + seconds;
+			} else {
+				strSeconds = "0" + seconds;
+			}
+			if (minutes > 9) {
+				strMinutes = "" + minutes;
+			} else {
+				strMinutes = "0" + minutes;
+			}
+			$("#countdots").text(" "+strMinutes + ":" + strSeconds);
 		}
-		if (minutes > 9) {
-			strMinutes = "" + minutes;
-		} else {
-			strMinutes = "0" + minutes;
-		}
-		$("#countdots").text(" for " + strMinutes + ":" + strSeconds);
 	}
 
 	function updateElements(nbFilesScanned, nbOSFilesFound, nbFilesToScan) {
@@ -169,11 +173,17 @@
 			cache : false,
 			success : function(data) {
 				if (data.progressState == "INITIALIZING") {
-					$("#scanningtext").text("COUNTING");
+					$("#scanningtext").text("Counting, time remaining:");
 				} else {
-					$("#scanningtext").text("SCANNING");
+					var progress_ = data.nbFilesScanned / data.nbFilesToScan ;
+					console.log(progress_);
+					if(progress_ <= 0.75){
+						$("#scanningtext").text("Scanning, time remaining:");
+					}else{
+						$("#scanningtext").text("Treemaping, time remaining:");
+					}
 				}
-				$("#counter-total").text(data.nbFilesToScanString);
+				$("#counter-total").text(data.nbFilesScanned+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
 				continue_ = (data.progressState != 'COMPLETE');
 				counting_ = (data.progressState == 'INITIALIZING');

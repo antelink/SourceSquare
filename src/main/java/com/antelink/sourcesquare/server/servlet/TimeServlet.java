@@ -35,34 +35,46 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.antelink.sourcesquare.client.scan.ScanStatus;
 import com.google.gson.Gson;
 
 public class TimeServlet extends HttpServlet {
-	
-	private static final Log logger = LogFactory.getLog(StatusServlet.class);
 
-	private static final long serialVersionUID = -424274857615445559L;
-	
-	long initTime=0;
+    private static final Log logger = LogFactory.getLog(StatusServlet.class);
 
-	public TimeServlet(long time){
-		initTime=time;
-	}
-	
-	/**
-	 * returns the time difference between initTime and the request time
-	 */
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			Gson gson = new Gson();
-			long timeDiff=(new Date()).getTime()-initTime;
-			response.setContentType("application/json;charset=utf-8");
-			response.getWriter().append(gson.toJson(timeDiff));
+    private static final long serialVersionUID = -424274857615445559L;
 
-		} catch (IOException e) {
-			logger.debug("Error dispatching time", e);
-		}
-	}
+    private static final long INIT_AVERAGE_TIME = 100;
+
+    long initTime = 0;
+
+    public TimeServlet(long time) {
+        this.initTime = time;
+    }
+
+    /**
+     * returns the time difference between initTime and the request time
+     */
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Gson gson = new Gson();
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().append(gson.toJson(computeTimeLeft()));
+
+        } catch (IOException e) {
+            logger.debug("Error dispatching time", e);
+        }
+    }
+
+    private double computeTimeLeft() {
+        long timeDiff = (new Date()).getTime() - this.initTime;
+        if (ScanStatus.INSTANCE.getNbFilesScanned() <= 0) {
+            return 0;
+        }
+        long averageTime = timeDiff / ScanStatus.INSTANCE.getNbFilesScanned();
+        return (ScanStatus.INSTANCE.getNbFilesToScan() - ScanStatus.INSTANCE.getNbFilesScanned())
+                * averageTime;
+    }
 
 }
