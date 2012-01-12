@@ -176,7 +176,6 @@
 					$("#scanningtext").text("Counting, time remaining:");
 				} else {
 					var progress_ = data.nbFilesScanned / data.nbFilesToScan ;
-					console.log(progress_);
 					if(progress_ <= 0.75){
 						$("#scanningtext").text("Scanning, time remaining:");
 					}else{
