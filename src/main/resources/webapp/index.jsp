@@ -69,7 +69,7 @@
 				<div class="in-brackets">
 					<div id="content">
 						<div class="column">
-							<strong>Total Files</strong><span id="counter-total"
+							<strong>Files Scanned</strong><span id="counter-total"
 								class="counter" > 0 </span>
 							<div id="graph-total">
 								<span id="graph-total-figure"> </span>
