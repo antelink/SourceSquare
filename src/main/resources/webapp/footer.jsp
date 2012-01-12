@@ -32,6 +32,7 @@
 		</div>
 	</a>
 	<ul>
+		<li> SourceSquare v${project.version}</li>
 		<li><a href="/about.html" alt="about SourceSquare"> About </a></li>
 		<li><a href="http://www.antelink.com/terms-use.html" alt="Terms of use">Terms of use</a></li>
 		<li><a href="http://www.antelink.com/product/antepedia-suite-tools.html"

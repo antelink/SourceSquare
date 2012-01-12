@@ -37,6 +37,8 @@ If you modify this Program, or any covered work, by linking or combining it with
 	<properties>
 		<timestamp>${maven.build.timestamp}</timestamp> <!-- Workaround MRESOURCES-99 -->
 	</properties>
+	
+	
 
 	<dependencies>
 		<dependency>
@@ -169,6 +171,7 @@ If you modify this Program, or any covered work, by linking or combining it with
 				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>**/about.html</exclude>
+					<exclude>**/footer.jsp</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -176,6 +179,7 @@ If you modify this Program, or any covered work, by linking or combining it with
 				<filtering>true</filtering>
 				<includes>
 					<include>**/about.html</include>
+					<include>**/footer.jsp</include>
 				</includes>
 			</resource>
 		</resources>
