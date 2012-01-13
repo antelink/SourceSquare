@@ -28,16 +28,10 @@ package com.antelink.sourcesquare.gui.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -51,8 +45,6 @@ import javax.swing.border.EmptyBorder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.antelink.sourcesquare.server.ServerController;
-
 public class ExitSourceSquareView extends JFrame {
 
     private final static Log logger = LogFactory.getLog(ExitSourceSquareView.class);
@@ -64,16 +56,18 @@ public class ExitSourceSquareView extends JFrame {
     private final JPanel contentPane;
     private JPanel mainPanel;
     private final JLabel exitButtonLabel;
+    private final JLabel openButtonLabel;
 
     /**
      * Create the frame.
      */
     public ExitSourceSquareView() {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/antelink.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/antelink.png")));
         setTitle("SourceSquare");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 500, 170);
+        setBounds(100, 100, 500, 190);
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.WHITE);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,10 +76,10 @@ public class ExitSourceSquareView extends JFrame {
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(Color.WHITE);
         GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
-        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(
-                this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
-        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(
-                this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
+        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         JPanel panel_1 = new JPanel();
@@ -94,8 +88,15 @@ public class ExitSourceSquareView extends JFrame {
         panel_1.setLayout(new BorderLayout(0, 0));
 
         JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
         panel.setBackground(Color.WHITE);
         panel_1.add(panel, BorderLayout.SOUTH);
+
+        Image openButtonImage = Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/OpenButton.png"));
+        this.openButtonLabel = new JLabel(new ImageIcon(openButtonImage));
+        this.openButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        panel.add(this.openButtonLabel);
 
         Image exitButtonImage = Toolkit.getDefaultToolkit().getImage(
                 SourceSquareView.class.getResource("/ExitButton.png"));
@@ -107,41 +108,10 @@ public class ExitSourceSquareView extends JFrame {
                 "<html><b>Close this window or click \"Exit\" to quit the application.</b>\n</html>");
         exitLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
 
-        JLabel browserLabel = new JLabel("<html>To see the results go to <a href=\"" + ServerController.URL + "\">"
-                + ServerController.URL + "</a><br><br>\n</html>");
-        browserLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
-        browserLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        browserLabel.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {}
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {}
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {}
-
-            @Override
-            public void mouseEntered(MouseEvent arg0) {}
-
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-                    Desktop.getDesktop().browse(new URI("http://localhost:9524/"));
-                } catch (IOException e) {
-                    logger.error("Error opening the browser", e);
-                } catch (URISyntaxException e) {
-                    logger.error("Error opening the browser", e);
-                }
-            }
-        });
-
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.WHITE);
-        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-        textPanel.add(browserLabel, BorderLayout.CENTER);
         textPanel.add(exitLabel, BorderLayout.CENTER);
 
         panel_1.add(textPanel, BorderLayout.CENTER);
@@ -169,6 +139,10 @@ public class ExitSourceSquareView extends JFrame {
 
     public JLabel getExitButtonLabel() {
         return this.exitButtonLabel;
+    }
+
+    public JLabel getOpenButtonLabel() {
+        return this.openButtonLabel;
     }
 
 }
