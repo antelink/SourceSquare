@@ -25,10 +25,14 @@
  */
 package com.antelink.sourcesquare.gui.controller;
 
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JOptionPane;
 
@@ -89,6 +93,44 @@ public class ExitController {
             }
         });
 
+        this.view.getOpenButtonLabel().addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    Desktop.getDesktop().browse(new URI("http://localhost:9524/"));
+                } catch (IOException e) {
+                    logger.error("Error opening the browser", e);
+                } catch (URISyntaxException e) {
+                    logger.error("Error opening the browser", e);
+                }
+            }
+        });
+
         this.eventBus.addHandler(StartScanEvent.TYPE, new StartScanEventHandler() {
 
             @Override
@@ -110,7 +152,8 @@ public class ExitController {
 
             @Override
             public void handle(String error) {
-                JOptionPane.showMessageDialog(ExitController.this.view, error, null, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ExitController.this.view, error, null,
+                        JOptionPane.ERROR_MESSAGE);
                 System.exit(0);
             }
         });
