@@ -76,7 +76,8 @@ public class ScanStatusManager {
 
             @Override
             public String getId() {
-                return getClass().getCanonicalName() + ": " + ScanCompleteEventHandler.class.getName();
+                return getClass().getCanonicalName() + ": "
+                        + ScanCompleteEventHandler.class.getName();
             }
 
             @Override
@@ -90,14 +91,22 @@ public class ScanStatusManager {
 
             @Override
             public String getId() {
-                return getClass().getCanonicalName() + ": " + FilesScannedEventHandler.class.getName();
+                return getClass().getCanonicalName() + ": "
+                        + FilesScannedEventHandler.class.getName();
             }
 
             @Override
-            public void handle(int count) {
-                logger.info("Finish scan for " + count + " files");
+            public void handle(int count, long timeDiff) {
+                Long avgTime = computeAvgTime(count, timeDiff);
                 ScanStatus.INSTANCE.addFilesScanned(count);
+                ScanStatus.INSTANCE.addAvgTime(avgTime);
+                logger.info("Finish scan for " + count + " files, average time per file: "
+                        + ((timeDiff / 1000) / 60) + " m " + ((timeDiff / 1000)) + " s");
 
+            }
+
+            private Long computeAvgTime(int count, long timeDiff) {
+                return timeDiff / count;
             }
         });
 
@@ -105,7 +114,8 @@ public class ScanStatusManager {
 
             @Override
             public String getId() {
-                return getClass().getCanonicalName() + ": " + OSFilesFoundEventHandler.class.getName();
+                return getClass().getCanonicalName() + ": "
+                        + OSFilesFoundEventHandler.class.getName();
             }
 
             @Override
@@ -116,5 +126,4 @@ public class ScanStatusManager {
         });
 
     }
-
 }
