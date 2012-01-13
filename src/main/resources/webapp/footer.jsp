@@ -26,12 +26,13 @@
 
 --%>
 <div id="footer">
-	<div id="footer-logo">
-		<!-- Antelink logo -->
-	</div>
+	<a href="http://www.antelink.com/" target="_blank">
+		<div id="footer-logo">
+			<!-- Antelink logo -->
+		</div>
+	</a>
 	<ul>
-		<li>Powered by <a href="http://www.antepedia.com" alt="Antepedia">Antepedia</a>,
-			an <a href="http://www.antelink.com" alt="Antelink">Antelink</a> product</li>
+		<li> SourceSquare v${project.version}</li>
 		<li><a href="/about.html" alt="about SourceSquare"> About </a></li>
 		<li><a href="http://www.antelink.com/terms-use.html" alt="Terms of use">Terms of use</a></li>
 		<li><a href="http://www.antelink.com/product/antepedia-suite-tools.html"

@@ -27,6 +27,7 @@ package com.antelink.sourcesquare.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -35,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.antelink.sourcesquare.SourceSquareResults;
 import com.antelink.sourcesquare.TreemapNode;
+import com.antelink.sourcesquare.badge.Badge;
 import com.antelink.sourcesquare.client.scan.ScanStatus;
 import com.antelink.sourcesquare.event.base.EventBus;
 import com.antelink.sourcesquare.event.events.SourceSquareResultsReadyEvent;
@@ -52,11 +54,12 @@ public class Simulator implements Runnable {
 
     @Override
     public void run() {
-        ScanStatus.INSTANCE.setNbFilesToScan(1000);
+        int nbFilesToScan = 101;
+        ScanStatus.INSTANCE.setNbFilesToScan(nbFilesToScan);
         ScanStatus.INSTANCE.setNbFilesScanned(0);
         ScanStatus.INSTANCE.setNbOSFilesFound(0);
         ScanStatus.INSTANCE.setQuerying();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < nbFilesToScan; i++) {
             logger.debug("increasing the count by " + i);
             System.out.println(i);
             ScanStatus.INSTANCE.setNbFilesScanned(i);
@@ -89,6 +92,11 @@ public class Simulator implements Runnable {
         TreemapNode root = gson.fromJson(deserialize, TreemapNode.class);
         SourceSquareResults result = new SourceSquareResults();
         result.setRootNode(root);
+        List<Badge> badges = new ArrayList<Badge>();
+        badges.add(Badge.OS_JEDI_KNIGHT);
+        badges.add(Badge.OLD);
+        result.setBadges(badges);
+        result.setNodeLevel(3);
         this.eventBus.fireEvent(new SourceSquareResultsReadyEvent(result));
         ScanStatus.INSTANCE.setComplete();
     }

@@ -58,7 +58,7 @@ public class EmbeddedServer {
     private PublishServlet publishServlet;
     private Context servletContext;
     private ContextHandlerCollection contexts;
-    private ShutdownServlet shutdownServlet;
+    private final ShutdownServlet shutdownServlet;
 
     private static final Log logger = LogFactory.getLog(EmbeddedServer.class);
 
@@ -75,7 +75,8 @@ public class EmbeddedServer {
 
         logger.debug("adding webhandler");
         getClass().getClassLoader();
-        this.webContext = new WebAppContext(ClassLoader.getSystemResource("webapp/").toExternalForm(), "/");
+        this.webContext = new WebAppContext(ClassLoader.getSystemResource("webapp/")
+                .toExternalForm(), "/");
         FilterHolder resultFilter = new FilterHolder(new ResultFilter(this.eventBus));
         this.webContext.addFilter(resultFilter, "/result.jsp", 1);
 
@@ -113,18 +114,19 @@ public class EmbeddedServer {
     }
 
     private void bind() {
-        this.eventBus.addHandler(SourceSquareResultsReadyEvent.TYPE, new SourceSquareResultsReadyEventHandler() {
-            @Override
-            public String getId() {
-                return "Embedded server result handler";
-            }
+        this.eventBus.addHandler(SourceSquareResultsReadyEvent.TYPE,
+                new SourceSquareResultsReadyEventHandler() {
+                    @Override
+                    public String getId() {
+                        return "Embedded server result handler";
+                    }
 
-            @Override
-            public void handle(SourceSquareResults results) {
-                bindWebContextData(results);
-                ScanStatus.INSTANCE.setComplete();
-            }
-        });
+                    @Override
+                    public void handle(SourceSquareResults results) {
+                        bindWebContextData(results);
+                        ScanStatus.INSTANCE.setComplete();
+                    }
+                });
     }
 
     public Context getServletContext() {

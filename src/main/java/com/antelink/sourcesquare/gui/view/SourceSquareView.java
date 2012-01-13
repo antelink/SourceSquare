@@ -61,7 +61,8 @@ public class SourceSquareView extends JFrame {
      * Create the frame.
      */
     public SourceSquareView() {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/antelink.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/antelink.png")));
         setTitle("SourceSquare");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,30 +75,37 @@ public class SourceSquareView extends JFrame {
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(Color.WHITE);
         GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
-        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
-        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+        gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE));
+        gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(this.mainPanel, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         Image logo;
         JPanel imgPanel = new JPanel();
         imgPanel.setBackground(Color.WHITE);
         this.mainPanel.add(imgPanel, "2, 4, 3, 1, fill, fill");
-        logo = Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/logo-SourceSquare-400-117.png"));
+        logo = Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/logo-SourceSquare-400-117.png"));
         JLabel picLabel = new JLabel(new ImageIcon(logo));
         imgPanel.add(picLabel, "2, 2, fill, fill");
 
         JPanel top = new JPanel();
         top.setBackground(Color.WHITE);
         this.mainPanel.add(top);
-        top.setLayout(new FormLayout(new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC, ColumnSpec.decode("default:grow"), FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC, },
-                new RowSpec[] { FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, RowSpec.decode("default:grow"), }));
+        top.setLayout(new FormLayout(new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
+                ColumnSpec.decode("default:grow"), FormFactory.RELATED_GAP_COLSPEC,
+                FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] { FormFactory.RELATED_GAP_ROWSPEC,
+                FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC,
+                RowSpec.decode("default:grow"), }));
 
         this.textField = new JTextField();
         this.textField.setText("Select a Directory to scan");
         top.add(this.textField, "2, 2, fill, default");
         this.textField.setColumns(10);
 
-        Image selectButtonImage = Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/SelectButton.png"));
+        Image selectButtonImage = Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/SelectButton.png"));
         this.selectButtonLabel = new JLabel(new ImageIcon(selectButtonImage));
         this.selectButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         top.add(this.selectButtonLabel, "4, 2");
@@ -106,7 +114,8 @@ public class SourceSquareView extends JFrame {
         panel.setBackground(Color.WHITE);
         top.add(panel, "2, 4, 3, 1, fill, fill");
 
-        Image scanButtonImage = Toolkit.getDefaultToolkit().getImage(SourceSquareView.class.getResource("/ScanButton.png"));
+        Image scanButtonImage = Toolkit.getDefaultToolkit().getImage(
+                SourceSquareView.class.getResource("/ScanButton.png"));
         this.scanButtonLabel = new JLabel(new ImageIcon(scanButtonImage));
         this.scanButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         panel.add(this.scanButtonLabel);
