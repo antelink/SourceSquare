@@ -29,6 +29,6 @@ import com.antelink.sourcesquare.event.base.ClientEventHandler;
 
 public interface FilesScannedEventHandler extends ClientEventHandler {
 
-    public void handle(int count);
+    public void handle(int count, long timeDiff);
 
 }

@@ -27,6 +27,7 @@ package com.antelink.sourcesquare.server.servlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,10 @@ public class TimeServlet extends HttpServlet {
     private static final long INIT_AVERAGE_TIME = 100;
 
     long initTime = 0;
+
+    private static long worstAvgTime;
+
+    private Vector<Long> avgTimes;
 
     public TimeServlet(long time) {
         this.initTime = time;
@@ -72,9 +77,23 @@ public class TimeServlet extends HttpServlet {
         if (ScanStatus.INSTANCE.getNbFilesScanned() <= 0) {
             return 0;
         }
-        long averageTime = timeDiff / ScanStatus.INSTANCE.getNbFilesScanned();
+        long averageTime = computeAvgTime(timeDiff);
+
         return (ScanStatus.INSTANCE.getNbFilesToScan() - ScanStatus.INSTANCE.getNbFilesScanned())
                 * averageTime;
+    }
+
+    private long computeAvgTime(long timeDiff) {
+
+        return ScanStatus.INSTANCE.getAverageTime();
+    }
+
+    public synchronized static long getWorstAvgTime() {
+        return worstAvgTime;
+    }
+
+    public synchronized static void setWorstAvgTime(long worstAvgTime) {
+        TimeServlet.worstAvgTime = worstAvgTime;
     }
 
 }

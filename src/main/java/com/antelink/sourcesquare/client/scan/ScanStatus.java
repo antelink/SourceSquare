@@ -26,6 +26,8 @@
 package com.antelink.sourcesquare.client.scan;
 
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Vector;
 
 public class ScanStatus {
 
@@ -37,12 +39,15 @@ public class ScanStatus {
     private String nbFilesToScanString;
     private String nbOSFilesFoundString;
     private String nbFilesScannedString;
+    private Vector<Long> avgTimes;
 
     public enum ScanState {
         INITIALIZING, QUERYING, PROCESSING, COMPLETE;
     }
 
     private ScanState progressState = ScanState.INITIALIZING;
+
+    private long cumulatedAvgTimes;
 
     private ScanStatus() {}
 
@@ -127,6 +132,28 @@ public class ScanStatus {
 
     public void setNbFilesScannedString(String nbFilesScannedString) {
         this.nbFilesScannedString = nbFilesScannedString;
+    }
+
+    public synchronized Vector<Long> getAvgTimes() {
+        if (this.avgTimes == null) {
+            this.avgTimes = new Vector<Long>();
+        }
+        return this.avgTimes;
+    }
+
+    public synchronized void setAvgTimes(Vector<Long> avgTimes) {
+        this.avgTimes = avgTimes;
+    }
+
+    public synchronized void addAvgTime(Long computeAvgTime) {
+        getAvgTimes().add(computeAvgTime);
+        Collections.sort(this.avgTimes);
+        this.cumulatedAvgTimes += computeAvgTime;
+
+    }
+
+    public synchronized long getAverageTime() {
+        return this.cumulatedAvgTimes / getAvgTimes().size();
     }
 
 }
