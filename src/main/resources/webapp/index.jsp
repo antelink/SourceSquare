@@ -69,7 +69,7 @@
 				<div class="in-brackets">
 					<div id="content">
 						<div class="column">
-							<strong>Total Files</strong><span id="counter-total"
+							<strong>Files Scanned</strong><span id="counter-total"
 								class="counter" > 0 </span>
 							<div id="graph-total">
 								<span id="graph-total-figure"> </span>
@@ -130,7 +130,12 @@
 			} else {
 				strMinutes = "0" + minutes;
 			}
-			$("#countdots").text(" "+strMinutes + ":" + strSeconds);
+			if(minutes>1){
+				$("#countdots").text(" about "+strMinutes + "min");
+			}
+			else{
+				$("#countdots").text(" less than 1 min");
+			}
 		}
 	}
 
@@ -177,9 +182,9 @@
 				} else {
 					var progress_ = data.nbFilesScanned / data.nbFilesToScan ;
 					if(progress_ <= 0.75){
-						$("#scanningtext").text("Scanning, time remaining:");
+						$("#scanningtext").text("Scanning, remaining");
 					}else{
-						$("#scanningtext").text("Treemaping, time remaining:");
+						$("#scanningtext").text("Treemaping, remaining");
 					}
 				}
 				$("#counter-total").text(data.nbFilesScanned+" / "+data.nbFilesToScanString);
