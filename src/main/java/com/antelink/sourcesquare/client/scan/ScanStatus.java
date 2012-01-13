@@ -36,9 +36,9 @@ public class ScanStatus {
     private int nbFilesToScan;
     private int nbOSFilesFound;
     private int nbFilesScanned;
-    private String nbFilesToScanString;
-    private String nbOSFilesFoundString;
-    private String nbFilesScannedString;
+    private String nbFilesToScanString = "0";
+    private String nbOSFilesFoundString = "0";
+    private String nbFilesScannedString = "0";
     private Vector<Long> avgTimes;
 
     public enum ScanState {
