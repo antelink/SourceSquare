@@ -25,6 +25,7 @@
  */
 package com.antelink.sourcesquare.client.scan;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
@@ -49,9 +50,9 @@ public class ProcessWorker {
      * current worker identifier
      */
     private final int id;
-    
+
     /**
-     *  determines whether the worker is available or note
+     * determines whether the worker is available or note
      */
     private boolean status = true;
 
@@ -61,14 +62,17 @@ public class ProcessWorker {
     private static int RETRIES = 3;
 
     private final Object lock;
-    
+
     private Thread executor;
 
     /**
      * 
-     * @param i id of this worker
-     * @param engine external communication engine
-     * @param lock lock to be notified when this engine finishes its work.
+     * @param i
+     *            id of this worker
+     * @param engine
+     *            external communication engine
+     * @param lock
+     *            lock to be notified when this engine finishes its work.
      */
     public ProcessWorker(int i, SourceSquareEngine engine, Object lock) {
         this.engine = engine;
@@ -93,7 +97,7 @@ public class ProcessWorker {
             @Override
             public void run() {
                 try {
-                    analyzeMapWithCount(0, tempMap);
+                    analyzeMapWithCount(0, tempMap, new Date().getTime());
                 } catch (Exception e) {
                     logger.error("Error while processing", e);
                 } finally {
@@ -104,11 +108,12 @@ public class ProcessWorker {
                 }
             }
         };
-        executor = new Thread(runner);
-        executor.start();
+        this.executor = new Thread(runner);
+        this.executor.start();
     }
 
-    private void analyzeMapWithCount(int times, HashMap<String, String> tempMap) throws Exception {
+    private void analyzeMapWithCount(int times, HashMap<String, String> tempMap, long initTime)
+            throws Exception {
         try {
             logger.debug("pass " + times + ": analyzing files " + tempMap.values());
             this.engine.discover(tempMap);
@@ -116,12 +121,12 @@ public class ProcessWorker {
             logger.debug("Error while analyzing", e);
             if (times > RETRIES) {
                 logger.error(RETRIES + " time retry done... giving up!");
-                //do as if the result where found
-                this.engine.DummyPass(e,tempMap.size());
+                // do as if the result where found
+                this.engine.DummyPass(e, tempMap.size(), new Date().getTime() - initTime);
                 throw e;
             } else {
                 logger.debug("retrying...");
-                analyzeMapWithCount(times + 1, tempMap);
+                analyzeMapWithCount(times + 1, tempMap, initTime);
             }
         }
     }
@@ -130,8 +135,8 @@ public class ProcessWorker {
         return this.status;
     }
 
-	public synchronized Thread getExecutor() {
-		return executor;
-	}
+    public synchronized Thread getExecutor() {
+        return this.executor;
+    }
 
 }
