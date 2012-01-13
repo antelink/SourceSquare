@@ -139,7 +139,7 @@ body {
 #counter-total, #counter-opensource {
 	display: inline-block;
 	background: url(../images/sprite.png) #8d8d8d top left no-repeat;
-	background-position: -97px -24px;
+	background-position: -140px -70px;
 	color: #fff;
 	font-size: 13px;
 	font-style: italic;
@@ -147,10 +147,15 @@ body {
 	margin-left: 5px;
 	padding: 2px 10px 2px 7px;
 	vertical-align: 10%;
-	width: 90px;
+	width: 70px;
 	height:  13px;
 	text-align:right;
 }
+
+#counter-total {
+	width: 120px;
+}
+
 
 #advertising {
 	margin-top: -20px;
