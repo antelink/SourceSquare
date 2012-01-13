@@ -35,9 +35,12 @@ public class FilesScannedEvent implements ClientEvent<FilesScannedEventHandler> 
 
     private final int count;
 
-    public FilesScannedEvent(int count) {
+    private final long timeDiff;
+
+    public FilesScannedEvent(int count, long timeDiff) {
         super();
         this.count = count;
+        this.timeDiff = timeDiff;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class FilesScannedEvent implements ClientEvent<FilesScannedEventHandler> 
 
     @Override
     public void dispatch(FilesScannedEventHandler handler) {
-        handler.handle(this.count);
+        handler.handle(this.count, this.timeDiff);
 
     }
 

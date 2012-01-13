@@ -26,6 +26,7 @@
 package com.antelink.sourcesquare.client.scan;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,9 @@ public class SourceSquareEngine {
         this.query = query;
     }
 
-    public void discover(Map<String, String> files) throws RestClientException, JsonGenerationException, JsonMappingException, IOException {
+    public void discover(Map<String, String> files) throws RestClientException,
+            JsonGenerationException, JsonMappingException, IOException {
+        long initTime = new Date().getTime();
         List<ResultEntry> results = this.query.getResults(files);
         Map<String, ResultEntry> mappedResults = null;
 
@@ -65,7 +68,8 @@ public class SourceSquareEngine {
             this.eventBus.fireEvent(new OSFilesFoundEvent(mappedResults.keySet()));
         }
         logger.debug("done with " + files.size() + " files");
-        this.eventBus.fireEvent(new FilesScannedEvent(files.size()));
+        this.eventBus
+                .fireEvent(new FilesScannedEvent(files.size(), new Date().getTime() - initTime));
     }
 
     private Map<String, ResultEntry> mapResults(Map<String, String> files, List<ResultEntry> results) {
