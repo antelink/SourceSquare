@@ -53,6 +53,8 @@ public class SourceSquareFSWalker {
 
     private static final int MAX_FILE_PER_QUERY = 400;
 
+    private static final int COMPUTE_WAIT_TIME = 5000;
+
     private final EventBus eventBus;
 
     private final TreeMapBuilder treemap;
@@ -131,12 +133,13 @@ public class SourceSquareFSWalker {
                 logger.error("skipping files " + file, e);
             }
 
-            if (toAnalyze.size() == this.filePerQuery || System.currentTimeMillis() - timer > 10000) {
+            if (toAnalyze.size() == this.filePerQuery || System.currentTimeMillis() - timer > COMPUTE_WAIT_TIME) {
                 // dispatch analysis
                 timer = System.currentTimeMillis();
                 analyzeMap(toAnalyze);
                 this.filePerQuery = Math.min(MAX_FILE_PER_QUERY, this.filePerQuery * 2);
                 logger.trace("new counter: " + count);
+
             }
         }
         if (!toAnalyze.isEmpty()) {
