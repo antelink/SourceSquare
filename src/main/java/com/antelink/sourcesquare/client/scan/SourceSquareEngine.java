@@ -80,4 +80,8 @@ public class SourceSquareEngine {
         return processed;
     }
 
+    public void DummyPass(Exception e, int size) {
+        logger.error("increasing file counter following an unrecoverable error...", e);
+        this.eventBus.fireEvent(new FilesScannedEvent(size));
+    }
 }

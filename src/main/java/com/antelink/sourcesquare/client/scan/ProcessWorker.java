@@ -116,6 +116,8 @@ public class ProcessWorker {
             logger.debug("Error while analyzing", e);
             if (times > RETRIES) {
                 logger.error(RETRIES + " time retry done... giving up!");
+                //do as if the result where found
+                this.engine.DummyPass(e,tempMap.size());
                 throw e;
             } else {
                 logger.debug("retrying...");
