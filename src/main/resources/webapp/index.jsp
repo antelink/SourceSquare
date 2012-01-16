@@ -131,7 +131,7 @@
 				strMinutes = "0" + minutes;
 			}
 			if(minutes>1){
-				$("#countdots").text(" about "+strMinutes + "min");
+				$("#countdots").text(" about "+strMinutes + " min");
 			}
 			else{
 				$("#countdots").text(" less than 1 min");
@@ -172,6 +172,8 @@
 		pieChart.updateJSON(json);
 		barChart.updateJSON(json2);
 	}
+	
+	
 	function executeQuery() {
 		$.ajax({
 			url : 'service/status',
@@ -180,19 +182,14 @@
 				if (data.progressState == "INITIALIZING") {
 					$("#scanningtext").text("Counting, time remaining:");
 				} else {
-					var progress_ = data.nbFilesScanned / data.nbFilesToScan ;
-					if(progress_ <= 0.75){
-						$("#scanningtext").text("Scanning, remaining");
-					}else{
-						$("#scanningtext").text("Treemaping, remaining");
-					}
+					$("#scanningtext").text("Scanning, remaining");
 				}
-				$("#counter-total").text(data.nbFilesScanned+" / "+data.nbFilesToScanString);
+				$("#counter-total").text(data.nbFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
 				continue_ = (data.progressState != 'COMPLETE');
 				counting_ = (data.progressState == 'INITIALIZING');
-				updateElements(data.nbFilesScanned, data.nbOSFilesFound,
-						data.nbFilesToScan, counting_);
+				updateElements(data.nbFilesScanned,data.nbOSFilesFound,data.nbFilesToScan, counting_);	
+				
 			},
 			complete : function() {
 				if (continue_) {
