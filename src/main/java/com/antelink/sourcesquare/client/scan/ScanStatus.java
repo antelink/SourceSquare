@@ -26,8 +26,7 @@
 package com.antelink.sourcesquare.client.scan;
 
 import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.Date;
 
 public class ScanStatus {
 
@@ -39,15 +38,14 @@ public class ScanStatus {
     private String nbFilesToScanString = "0";
     private String nbOSFilesFoundString = "0";
     private String nbFilesScannedString = "0";
-    private Vector<Long> avgTimes;
+    private long averageScanningTime;
+    private long initTime;
 
     public enum ScanState {
         INITIALIZING, QUERYING, PROCESSING, COMPLETE;
     }
 
     private ScanState progressState = ScanState.INITIALIZING;
-
-    private long cumulatedAvgTimes;
 
     private ScanStatus() {}
 
@@ -134,26 +132,24 @@ public class ScanStatus {
         this.nbFilesScannedString = nbFilesScannedString;
     }
 
-    public synchronized Vector<Long> getAvgTimes() {
-        if (this.avgTimes == null) {
-            this.avgTimes = new Vector<Long>();
-        }
-        return this.avgTimes;
+    public synchronized long getAverageScanningTime() {
+        return this.averageScanningTime;
     }
 
-    public synchronized void setAvgTimes(Vector<Long> avgTimes) {
-        this.avgTimes = avgTimes;
+    public synchronized void setAverageScanningTime(long averageScanningTime) {
+        this.averageScanningTime = averageScanningTime;
     }
 
-    public synchronized void addAvgTime(Long computeAvgTime) {
-        getAvgTimes().add(computeAvgTime);
-        Collections.sort(this.avgTimes);
-        this.cumulatedAvgTimes += computeAvgTime;
-
+    public synchronized long getInitTime() {
+        return this.initTime;
     }
 
-    public synchronized long getAverageTime() {
-        return this.cumulatedAvgTimes / getAvgTimes().size();
+    public synchronized void setInitTime(long initTime) {
+        this.initTime = initTime;
+    }
+
+    public void start() {
+        setInitTime(new Date().getTime());
     }
 
 }

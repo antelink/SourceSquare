@@ -27,6 +27,7 @@ package com.antelink.sourcesquare.client.scan;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -96,18 +97,15 @@ public class ScanStatusManager {
             }
 
             @Override
-            public void handle(int count, long timeDiff) {
-                Long avgTime = computeAvgTime(count, timeDiff);
+            public void handle(int count) {
                 ScanStatus.INSTANCE.addFilesScanned(count);
-                ScanStatus.INSTANCE.addAvgTime(avgTime);
-                logger.info("Finish scan for " + count + " files, average time per file: "
-                        + ((timeDiff / 1000) / 60) + " m " + ((timeDiff / 1000)) + " s");
+                long averageTime = ScanStatusManager.this.computeAverageTime();
+                ScanStatus.INSTANCE.setAverageScanningTime(averageTime);
+                logger.info("Finish scan for " + count + " files, average scanning time: "
+                        + averageTime + " ms");
 
             }
 
-            private Long computeAvgTime(int count, long timeDiff) {
-                return timeDiff / count;
-            }
         });
 
         this.eventbus.addHandler(OSFilesFoundEvent.TYPE, new OSFilesFoundEventHandler() {
@@ -125,5 +123,10 @@ public class ScanStatusManager {
             }
         });
 
+    }
+
+    protected long computeAverageTime() {
+        return (new Date().getTime() - ScanStatus.INSTANCE.getInitTime())
+                / ScanStatus.INSTANCE.getNbFilesScanned();
     }
 }

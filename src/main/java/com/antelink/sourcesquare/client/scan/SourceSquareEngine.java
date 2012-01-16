@@ -26,7 +26,6 @@
 package com.antelink.sourcesquare.client.scan;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,6 @@ public class SourceSquareEngine {
 
     public void discover(Map<String, String> files) throws RestClientException,
             JsonGenerationException, JsonMappingException, IOException {
-        long initTime = new Date().getTime();
         List<ResultEntry> results = this.query.getResults(files);
         Map<String, ResultEntry> mappedResults = null;
 
@@ -68,8 +66,7 @@ public class SourceSquareEngine {
             this.eventBus.fireEvent(new OSFilesFoundEvent(mappedResults.keySet()));
         }
         logger.debug("done with " + files.size() + " files");
-        this.eventBus
-                .fireEvent(new FilesScannedEvent(files.size(), new Date().getTime() - initTime));
+        this.eventBus.fireEvent(new FilesScannedEvent(files.size()));
     }
 
     private Map<String, ResultEntry> mapResults(Map<String, String> files, List<ResultEntry> results) {
@@ -84,8 +81,8 @@ public class SourceSquareEngine {
         return processed;
     }
 
-    public void DummyPass(Exception e, int size, long timeDiff) {
+    public void DummyPass(Exception e, int size) {
         logger.error("increasing file counter following an unrecoverable error...", e);
-        this.eventBus.fireEvent(new FilesScannedEvent(size, timeDiff));
+        this.eventBus.fireEvent(new FilesScannedEvent(size));
     }
 }
