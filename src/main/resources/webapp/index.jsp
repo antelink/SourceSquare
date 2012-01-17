@@ -177,9 +177,9 @@
 			cache : false,
 			success : function(data) {
 				if (data.progressState == 'INITIALIZING') {
-					$("#scanningtext").text('step 1: counting files.');
+					$("#scanningtext").text('step 1: counting files...');
 				} else {
-					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>.');
+					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>...');
 				}
 				$("#counter-total").text(data.displayedFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
