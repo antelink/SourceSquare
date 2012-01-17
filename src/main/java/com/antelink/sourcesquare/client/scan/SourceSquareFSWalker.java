@@ -53,7 +53,7 @@ public class SourceSquareFSWalker {
 
     private static final int MAX_FILE_PER_QUERY = 400;
 
-    private static final int COMPUTE_WAIT_TIME = 5000;
+    private static final int COMPUTE_WAIT_TIME = 1000;
 
     private final EventBus eventBus;
 
