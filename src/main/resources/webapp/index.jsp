@@ -127,6 +127,9 @@
 			if(minutes==0){
 				minutes=1;
 			}
+			if(seconds > 15){
+				minutes++;
+			}
 			strMinutes = "" + minutes;
 			
 			$("#countdots").text("About "+strMinutes + " min remaining");
