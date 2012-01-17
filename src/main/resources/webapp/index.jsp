@@ -63,8 +63,12 @@
 			</p>
 		</div>
 		<!--/header-->
-
+		
+		
 		<div id="wrapper">
+			<div id="scanning">
+				<span>Building treemap, </span><span id="scanningtext">INITIALIZING</span><span id="countdots" class="countdots">...</span>
+			</div>
 			<div class="brackets">
 				<div class="in-brackets">
 					<div id="content">
@@ -81,11 +85,6 @@
 							<div id="graph-opensource">
 								<span id="graph-opensource-figure"> </span>
 							</div>
-							<div id="scanning">
-								<span id="scanningtext">INITIALIZING</span><span id="countdots"
-									class="countdots">...</span>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -113,7 +112,7 @@
 	}
 	function lengthTimer(timeDiffmillis) {
 		if(timeDiffmillis==0){
-			$("#countdots").text(" --:--");
+			$("#countdots").text("");
 		}else{
 			var timeDiff = timeDiffmillis / 1000;
 			var seconds = Math.floor(timeDiff % 60);
@@ -125,17 +124,15 @@
 			} else {
 				strSeconds = "0" + seconds;
 			}
-			if (minutes > 9) {
-				strMinutes = "" + minutes;
-			} else {
-				strMinutes = "0" + minutes;
+			if(minutes==0){
+				minutes=1;
 			}
-			if(minutes>1){
-				$("#countdots").text(" about "+strMinutes + "min");
+			if(seconds > 15){
+				minutes++;
 			}
-			else{
-				$("#countdots").text(" less than 1 min");
-			}
+			strMinutes = "" + minutes;
+			
+			$("#countdots").text("About "+strMinutes + " min remaining");
 		}
 	}
 
@@ -172,27 +169,24 @@
 		pieChart.updateJSON(json);
 		barChart.updateJSON(json2);
 	}
+	
+	
 	function executeQuery() {
 		$.ajax({
 			url : 'service/status',
 			cache : false,
 			success : function(data) {
-				if (data.progressState == "INITIALIZING") {
-					$("#scanningtext").text("Counting, time remaining:");
+				if (data.progressState == 'INITIALIZING') {
+					$("#scanningtext").text('step 1: counting files.');
 				} else {
-					var progress_ = data.nbFilesScanned / data.nbFilesToScan ;
-					if(progress_ <= 0.75){
-						$("#scanningtext").text("Scanning, remaining");
-					}else{
-						$("#scanningtext").text("Treemaping, remaining");
-					}
+					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>.');
 				}
-				$("#counter-total").text(data.nbFilesScanned+" / "+data.nbFilesToScanString);
+				$("#counter-total").text(data.displayedFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
 				continue_ = (data.progressState != 'COMPLETE');
 				counting_ = (data.progressState == 'INITIALIZING');
-				updateElements(data.nbFilesScanned, data.nbOSFilesFound,
-						data.nbFilesToScan, counting_);
+				updateElements(data.displayedFilesScanned,data.nbOSFilesFound,data.nbFilesToScan, counting_);	
+				
 			},
 			complete : function() {
 				if (continue_) {

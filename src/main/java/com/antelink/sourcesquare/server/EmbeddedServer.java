@@ -25,8 +25,6 @@
  */
 package com.antelink.sourcesquare.server;
 
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mortbay.jetty.Server;
@@ -96,7 +94,7 @@ public class EmbeddedServer {
         this.servletContext.addServlet(shutdownService, "/shutdown");
 
         logger.debug("adding time servlet");
-        ServletHolder timeService = new ServletHolder(new TimeServlet((new Date()).getTime()));
+        ServletHolder timeService = new ServletHolder(new TimeServlet());
         this.servletContext.addServlet(timeService, "/time");
 
         this.contexts.addHandler(this.servletContext);

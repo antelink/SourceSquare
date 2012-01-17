@@ -53,7 +53,7 @@ public class SourceSquareFSWalker {
 
     private static final int MAX_FILE_PER_QUERY = 400;
 
-    private static final int COMPUTE_WAIT_TIME = 5000;
+    private static final int COMPUTE_WAIT_TIME = 1000;
 
     private final EventBus eventBus;
 
@@ -64,7 +64,7 @@ public class SourceSquareFSWalker {
     private final ArrayList<ProcessWorker> workers = new ArrayList<ProcessWorker>();
 
     /*contains number of folders per level*/
-    private ArrayList<Integer> levels;
+    private final ArrayList<Integer> levels;
 
     private final Object lock;
 
@@ -106,6 +106,7 @@ public class SourceSquareFSWalker {
             public void handle(TreeSet<File> fileSet) {
                 try {
                     logger.info("Start scan for " + fileSet.size() + " files");
+                    ScanStatus.INSTANCE.start();
                     SourceSquareFSWalker.this.queryFiles(fileSet);
                 } catch (Exception e) {
                     logger.debug("Error handling tree identification", e);
@@ -133,7 +134,8 @@ public class SourceSquareFSWalker {
                 logger.error("skipping files " + file, e);
             }
 
-            if (toAnalyze.size() == this.filePerQuery || System.currentTimeMillis() - timer > COMPUTE_WAIT_TIME) {
+            if (toAnalyze.size() == this.filePerQuery
+                    || System.currentTimeMillis() - timer > COMPUTE_WAIT_TIME) {
                 // dispatch analysis
                 timer = System.currentTimeMillis();
                 analyzeMap(toAnalyze);
@@ -157,7 +159,8 @@ public class SourceSquareFSWalker {
         logger.info("Analysis done " + count);
     }
 
-    private synchronized void analyzeMap(HashMap<String, String> tempMap) throws InterruptedException {
+    private synchronized void analyzeMap(HashMap<String, String> tempMap)
+            throws InterruptedException {
         ProcessWorker worker = null;
         while ((worker = getAvailableProcessor()) == null) {
             synchronized (this.lock) {
@@ -178,8 +181,9 @@ public class SourceSquareFSWalker {
             this.treemap.setRoot(root);
             this.eventBus.fireEvent(new FilesIdentifiedEvent(fileSet));
         } catch (OutOfMemoryError e) {
-            this.eventBus.fireEvent(new ErrorEvent(
-                    "Out of memory: Try again with a smaller directory\nor change your JVM parameters."));
+            this.eventBus
+                    .fireEvent(new ErrorEvent(
+                            "Out of memory: Try again with a smaller directory\nor change your JVM parameters."));
         }
 
     }

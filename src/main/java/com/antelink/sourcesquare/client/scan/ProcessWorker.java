@@ -25,7 +25,6 @@
  */
 package com.antelink.sourcesquare.client.scan;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
@@ -97,7 +96,7 @@ public class ProcessWorker {
             @Override
             public void run() {
                 try {
-                    analyzeMapWithCount(0, tempMap, new Date().getTime());
+                    analyzeMapWithCount(0, tempMap);
                 } catch (Exception e) {
                     logger.error("Error while processing", e);
                 } finally {
@@ -112,8 +111,7 @@ public class ProcessWorker {
         this.executor.start();
     }
 
-    private void analyzeMapWithCount(int times, HashMap<String, String> tempMap, long initTime)
-            throws Exception {
+    private void analyzeMapWithCount(int times, HashMap<String, String> tempMap) throws Exception {
         try {
             logger.debug("pass " + times + ": analyzing files " + tempMap.values());
             this.engine.discover(tempMap);
@@ -122,11 +120,11 @@ public class ProcessWorker {
             if (times > RETRIES) {
                 logger.error(RETRIES + " time retry done... giving up!");
                 // do as if the result where found
-                this.engine.DummyPass(e, tempMap.size(), new Date().getTime() - initTime);
+                this.engine.DummyPass(e, tempMap.size());
                 throw e;
             } else {
                 logger.debug("retrying...");
-                analyzeMapWithCount(times + 1, tempMap, initTime);
+                analyzeMapWithCount(times + 1, tempMap);
             }
         }
     }
