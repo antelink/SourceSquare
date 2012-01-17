@@ -26,8 +26,6 @@
 package com.antelink.sourcesquare.server.servlet;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,20 +43,8 @@ public class TimeServlet extends HttpServlet {
 
     private static final long serialVersionUID = -424274857615445559L;
 
-    private static final long INIT_AVERAGE_TIME = 100;
-
-    long initTime = 0;
-
-    private static long worstAvgTime;
-
-    private Vector<Long> avgTimes;
-
-    public TimeServlet(long time) {
-        this.initTime = time;
-    }
-
     /**
-     * returns the time difference between initTime and the request time
+     * returns the estimated remaining time
      */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -73,27 +59,15 @@ public class TimeServlet extends HttpServlet {
     }
 
     private double computeTimeLeft() {
-        long timeDiff = (new Date()).getTime() - this.initTime;
         if (ScanStatus.INSTANCE.getNbFilesScanned() <= 0) {
             return 0;
         }
-        long averageTime = computeAvgTime(timeDiff);
-
         return (ScanStatus.INSTANCE.getNbFilesToScan() - ScanStatus.INSTANCE.getNbFilesScanned())
-                * averageTime;
+                * computeAvgTime();
     }
 
-    private long computeAvgTime(long timeDiff) {
-
-        return ScanStatus.INSTANCE.getAverageTime();
-    }
-
-    public synchronized static long getWorstAvgTime() {
-        return worstAvgTime;
-    }
-
-    public synchronized static void setWorstAvgTime(long worstAvgTime) {
-        TimeServlet.worstAvgTime = worstAvgTime;
+    private long computeAvgTime() {
+        return ScanStatus.INSTANCE.getAverageScanningTime();
     }
 
 }

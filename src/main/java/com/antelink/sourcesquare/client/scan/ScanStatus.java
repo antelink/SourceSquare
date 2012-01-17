@@ -26,8 +26,7 @@
 package com.antelink.sourcesquare.client.scan;
 
 import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.Date;
 
 public class ScanStatus {
 
@@ -36,10 +35,14 @@ public class ScanStatus {
     private int nbFilesToScan;
     private int nbOSFilesFound;
     private int nbFilesScanned;
-    private String nbFilesToScanString = "0";
     private String nbOSFilesFoundString = "0";
-    private String nbFilesScannedString = "0";
-    private Vector<Long> avgTimes;
+    private String displayedFilesScannedString = "0";
+    private String nbFilesToScanString = "0";
+    private long averageScanningTime;
+    private long initTime;
+    private int displayedFilesScanned;
+    private long lastUpdateTime;
+    private int nbQueryingFiles;
 
     public enum ScanState {
         INITIALIZING, QUERYING, PROCESSING, COMPLETE;
@@ -47,12 +50,11 @@ public class ScanStatus {
 
     private ScanState progressState = ScanState.INITIALIZING;
 
-    private long cumulatedAvgTimes;
-
     private ScanStatus() {}
 
     public synchronized void addFilesScanned(int count) {
         setNbFilesScanned(this.nbFilesScanned + count);
+        removeNbQueryingFiles(count);
     }
 
     public synchronized void addOSFiles(int count) {
@@ -65,7 +67,7 @@ public class ScanStatus {
 
     public synchronized void setNbFilesToScan(int nbFilesToScan) {
         this.nbFilesToScan = nbFilesToScan;
-        this.nbFilesToScanString = NumberFormat.getInstance().format(this.nbFilesToScan);
+        setNbFilesToScanString(NumberFormat.getInstance().format(this.nbFilesToScan));
     }
 
     public synchronized int getNbOSFilesFound() {
@@ -83,7 +85,6 @@ public class ScanStatus {
 
     public synchronized void setNbFilesScanned(int nbFilesScanned) {
         this.nbFilesScanned = nbFilesScanned;
-        this.nbFilesScannedString = NumberFormat.getInstance().format(this.nbFilesScanned);
     }
 
     public synchronized boolean isComplete() {
@@ -110,14 +111,6 @@ public class ScanStatus {
         this.progressState = ScanState.PROCESSING;
     }
 
-    public String getNbFilesToScanString() {
-        return this.nbFilesToScanString;
-    }
-
-    public void setNbFilesToScanString(String nbFilesToScanString) {
-        this.nbFilesToScanString = nbFilesToScanString;
-    }
-
     public String getNbOSFilesFoundString() {
         return this.nbOSFilesFoundString;
     }
@@ -126,34 +119,74 @@ public class ScanStatus {
         this.nbOSFilesFoundString = nbOSFilesFoundString;
     }
 
-    public String getNbFilesScannedString() {
-        return this.nbFilesScannedString;
+    public synchronized long getAverageScanningTime() {
+        return this.averageScanningTime;
     }
 
-    public void setNbFilesScannedString(String nbFilesScannedString) {
-        this.nbFilesScannedString = nbFilesScannedString;
+    public synchronized void setAverageScanningTime(long averageScanningTime) {
+        this.averageScanningTime = averageScanningTime;
     }
 
-    public synchronized Vector<Long> getAvgTimes() {
-        if (this.avgTimes == null) {
-            this.avgTimes = new Vector<Long>();
-        }
-        return this.avgTimes;
+    public synchronized long getInitTime() {
+        return this.initTime;
     }
 
-    public synchronized void setAvgTimes(Vector<Long> avgTimes) {
-        this.avgTimes = avgTimes;
+    public synchronized void setInitTime(long initTime) {
+        this.initTime = initTime;
     }
 
-    public synchronized void addAvgTime(Long computeAvgTime) {
-        getAvgTimes().add(computeAvgTime);
-        Collections.sort(this.avgTimes);
-        this.cumulatedAvgTimes += computeAvgTime;
-
+    public void start() {
+        setInitTime(new Date().getTime());
     }
 
-    public synchronized long getAverageTime() {
-        return this.cumulatedAvgTimes / getAvgTimes().size();
+    public synchronized int getDisplayedFilesScanned() {
+        return this.displayedFilesScanned;
+    }
+
+    public synchronized void setDisplayedFilesScanned(int displayedFilesScanned) {
+        this.displayedFilesScanned = displayedFilesScanned;
+        this.displayedFilesScannedString = NumberFormat.getInstance().format(
+                this.displayedFilesScanned);
+    }
+
+    public synchronized long getLastUpdateTime() {
+        return this.lastUpdateTime;
+    }
+
+    public synchronized void setLastUpdateTime(long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public synchronized String getDisplayedFilesScannedString() {
+        return this.displayedFilesScannedString;
+    }
+
+    public synchronized void setDisplayedFilesScannedString(String displayedFilesScannedString) {
+        this.displayedFilesScannedString = displayedFilesScannedString;
+    }
+
+    public synchronized int getNbQueryingFiles() {
+        return this.nbQueryingFiles;
+    }
+
+    public synchronized void setNbQueryingFiles(int nbQueryingFiles) {
+        this.nbQueryingFiles = nbQueryingFiles;
+    }
+
+    public synchronized void addNbQueryingFiles(int nbQueryingFiles) {
+        this.nbQueryingFiles += nbQueryingFiles;
+    }
+
+    public synchronized void removeNbQueryingFiles(int nbQueryingFiles) {
+        this.nbQueryingFiles -= nbQueryingFiles;
+    }
+
+    public synchronized String getNbFilesToScanString() {
+        return this.nbFilesToScanString;
+    }
+
+    public synchronized void setNbFilesToScanString(String nbFilesToScanString) {
+        this.nbFilesToScanString = nbFilesToScanString;
     }
 
 }
