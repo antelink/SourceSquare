@@ -101,6 +101,7 @@ public class ScanStatusManager {
                 ScanStatus.INSTANCE.addFilesScanned(count);
                 long averageTime = ScanStatusManager.this.computeAverageTime();
                 ScanStatus.INSTANCE.setAverageScanningTime(averageTime);
+                ScanStatus.INSTANCE.setLastUpdateTime(new Date().getTime());
                 logger.info("Finish scan for " + count + " files, average scanning time: "
                         + averageTime + " ms");
 

@@ -57,6 +57,8 @@ public class SourceSquareEngine {
 
     public void discover(Map<String, String> files) throws RestClientException,
             JsonGenerationException, JsonMappingException, IOException {
+        logger.info("add files to query: " + files.size());
+        ScanStatus.INSTANCE.addNbQueryingFiles(files.size());
         List<ResultEntry> results = this.query.getResults(files);
         Map<String, ResultEntry> mappedResults = null;
 

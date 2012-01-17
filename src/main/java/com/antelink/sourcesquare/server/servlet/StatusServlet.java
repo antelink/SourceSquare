@@ -26,6 +26,7 @@
 package com.antelink.sourcesquare.server.servlet;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,22 +39,46 @@ import com.antelink.sourcesquare.client.scan.ScanStatus;
 import com.google.gson.Gson;
 
 public class StatusServlet extends HttpServlet {
-	
-	private static final Log logger = LogFactory.getLog(StatusServlet.class);
 
-	private static final long serialVersionUID = -424274857615445559L;
+    private static final Log logger = LogFactory.getLog(StatusServlet.class);
 
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			Gson gson = new Gson();
-			response.setContentType("application/json;charset=utf-8");
-			ScanStatus status=ScanStatus.INSTANCE;
-			response.getWriter().append(gson.toJson(status));
-			logger.trace("replying application advance status");
-		} catch (IOException e) {
-			logger.debug("Error dispatching status", e);
-		}
-	}
+    private static final long serialVersionUID = -424274857615445559L;
 
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Gson gson = new Gson();
+            response.setContentType("application/json;charset=utf-8");
+            int displayedFilesScanned = computeDisplayedFilesScanned();
+
+            ScanStatus.INSTANCE.setDisplayedFilesScanned(displayedFilesScanned);
+            ScanStatus status = ScanStatus.INSTANCE;
+            response.getWriter().append(gson.toJson(status));
+            logger.trace("replying application advance status");
+        } catch (IOException e) {
+            logger.debug("Error dispatching status", e);
+        }
+    }
+
+    private int computeDisplayedFilesScanned() {
+        long timeSinceStart = new Date().getTime() - ScanStatus.INSTANCE.getInitTime();
+        long timeSinceLastScan = ScanStatus.INSTANCE.getLastUpdateTime()
+                - ScanStatus.INSTANCE.getInitTime();
+        if (timeSinceLastScan <= 0) {
+            return ScanStatus.INSTANCE.getDisplayedFilesScanned();
+        }
+        int displayedfilesScanned = (int) (timeSinceStart * ScanStatus.INSTANCE.getNbFilesScanned() / timeSinceLastScan);
+        this.logger.info("timeSinceStart: " + timeSinceStart);
+        this.logger.info("timeSinceLastScan: " + timeSinceLastScan);
+        this.logger.info("NbFilesScanned: " + ScanStatus.INSTANCE.getNbFilesScanned());
+        this.logger.info("displayedFilesScanned: " + displayedfilesScanned);
+        this.logger.info("NbQueryingFiles: " + ScanStatus.INSTANCE.getNbQueryingFiles());
+        if (displayedfilesScanned > ScanStatus.INSTANCE.getNbFilesScanned()
+                + ScanStatus.INSTANCE.getNbQueryingFiles()
+                || displayedfilesScanned > ScanStatus.INSTANCE.getNbFilesToScan()
+                || displayedfilesScanned < ScanStatus.INSTANCE.getDisplayedFilesScanned()) {
+            return ScanStatus.INSTANCE.getDisplayedFilesScanned();
+        }
+        return displayedfilesScanned;
+    }
 }

@@ -181,11 +181,11 @@
 				} else {
 					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>.');
 				}
-				$("#counter-total").text(data.nbFilesScannedString+" / "+data.nbFilesToScanString);
+				$("#counter-total").text(data.displayedFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
 				continue_ = (data.progressState != 'COMPLETE');
 				counting_ = (data.progressState == 'INITIALIZING');
-				updateElements(data.nbFilesScanned,data.nbOSFilesFound,data.nbFilesToScan, counting_);	
+				updateElements(data.displayedFilesScanned,data.nbOSFilesFound,data.nbFilesToScan, counting_);	
 				
 			},
 			complete : function() {
