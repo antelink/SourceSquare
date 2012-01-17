@@ -173,10 +173,10 @@
 			url : 'service/status',
 			cache : false,
 			success : function(data) {
-				if (data.progressState == "INITIALIZING") {
-					$("#scanningtext").text("step 1: counting files.");
+				if (data.progressState == 'INITIALIZING') {
+					$("#scanningtext").text('step 1: counting files.');
 				} else {
-					$("#scanningtext").text("step 2: querying Antepedia.");
+					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>.');
 				}
 				$("#counter-total").text(data.nbFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
