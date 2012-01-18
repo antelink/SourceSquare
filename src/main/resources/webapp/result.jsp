@@ -254,7 +254,7 @@
 		drawTreemap(json,true,${modelData.nodeLevel});
 		var iprogress_oss=progress_oss;
 		if(progress_oss==0){
-			iprogress_oss=0.1
+			iprogress_oss=0.001
 		}
 		pieChart({
 			'color' : [ '#1BA2FF', '#e6e6e6' ],

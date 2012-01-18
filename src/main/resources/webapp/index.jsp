@@ -156,8 +156,9 @@
 	
 	function updatePieChart(nbFilesScanned, nbOSFilesFound) {
 		progress_oss = Math.round((nbOSFilesFound * 100) / nbFilesScanned);
+		
 		if (isNaN(progress_oss) || progress_oss == 0) {
-			progress_oss = 0.1;
+			progress_oss = 0.001;
 		}
 		var json = {
 			'color' : [ '#1BA2FF', '#e6e6e6' ],
@@ -211,7 +212,7 @@
 			'label' : [ 'Open Source' ],
 			'values' : [ {
 				'label' : 'op',
-				'values' : [ 0.1 ]
+				'values' : [ 0.001 ]
 			}, {
 				'label' : 'nop',
 				'values' : [ 100 ]

@@ -64,7 +64,7 @@ function pieChart(json,offset) {
 			enable : true,
 			onShow : function(tip, elem) {
 				var uprogress_oss=progress_oss;
-				if(progress_oss==0.1){
+				if(progress_oss==0.001){
 					uprogress_oss=0;
 				}
 				tip.innerHTML = "<b>Open source</b>: " +uprogress_oss+"%";
