@@ -53,9 +53,11 @@
 	<div id="global-width">
 		<div id="header">
 			<div class="brackets">
-				<div id="logo" class="in-brackets">
-					<!-- Logo -->
-				</div>
+				<a href="http://www.sourcesquare.org">
+					<div id="logo" class="in-brackets">
+						<!-- Logo -->
+					</div>
+				</a>
 			</div>
 			<p id="catch-line">
 				Find out if you are<br />an <span class="blue">open source</span>
