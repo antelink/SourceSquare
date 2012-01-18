@@ -72,7 +72,7 @@
 			<div id="content-treemap"></div>
 			
 			<div id="sidebar">
-			<div id="advertising">* File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html">Antelink's products</a></div>
+			<div id="advertising">File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html">Antelink products</a></div>
 				<div class="brackets">
 					<ul class="in-brackets">
 						<li>Total Files <span id="counter-total">
