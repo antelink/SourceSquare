@@ -70,7 +70,7 @@
 			<div id="content-treemap"></div>
 			
 			<div id="sidebar">
-			<div id="advertising">* File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html" target="_blank">Antelink's products</a></div>
+			<div id="advertising">* File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html">Antelink's products</a></div>
 				<div class="brackets">
 					<ul class="in-brackets">
 						<li>Total Files <span id="counter-total">
@@ -267,6 +267,13 @@
 				'values' : [ 100-progress_oss ]
 			} ]
 		},0);
+		$("a").each(function (i) {
+			if (this.getAttribute("href")) {
+		         this.onclick = function() {
+		             return !window.open(this.href);
+		      }
+			}
+	      });
 	});
 </script>
 
