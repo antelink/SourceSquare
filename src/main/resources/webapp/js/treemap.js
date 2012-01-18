@@ -220,6 +220,7 @@ function drawTreemap(json, option, nodeLevel) {
 				else{
 					var parents = node.getParents();
 					if (parents.length != 0) {
+						pushNodeName(parents[0]);
 						tm.enter(parents[0]);
 					}
 				}
