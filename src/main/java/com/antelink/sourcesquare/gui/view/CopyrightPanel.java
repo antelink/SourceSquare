@@ -34,6 +34,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,16 +50,32 @@ public class CopyrightPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = -2789554911632948675L;
-    private final JLabel copyright;
-    private final JLabel agreement;
 
     public CopyrightPanel() {
         super();
-        this.copyright = new JLabel(
-                "<html>Powered by <a href=\"\" style=\"cursor:pointer;\">Antepedia<a/>, an <a href=\"\" style=\"cursor:pointer;\">Antelink</a> product - </html>");
-        this.copyright.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-        this.copyright.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        this.copyright.addMouseListener(new MouseListener() {
+
+        ArrayList<JLabel> sentence = new ArrayList<JLabel>();
+        sentence.add(new JLabel("Powered by"));
+        sentence.add(createJLabelWithHyperlink("Antepedia", "http://www.antepedia.com"));
+        sentence.add(new JLabel(", an "));
+        sentence.add(createJLabelWithHyperlink("Antelink", "http://www.antelink.com"));
+        sentence.add(new JLabel(" product - "));
+        sentence.add(createJLabelWithHyperlink("About SourceSquare",
+                "https://sourcesquare.antepedia.com/about.html"));
+
+        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+        for (JLabel jLabel : sentence) {
+            jLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+            this.add(jLabel);
+        }
+        this.setSize(360, 25);
+    }
+
+    private JLabel createJLabelWithHyperlink(String text, final String href) {
+        JLabel label = new JLabel("<html><a href=\"\">" + text + "<a/></html>");
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        label.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseReleased(MouseEvent arg0) {}
@@ -75,7 +92,7 @@ public class CopyrightPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
-                    Desktop.getDesktop().browse(new URI("http://www.antelink.com/"));
+                    Desktop.getDesktop().browse(new URI(href));
                 } catch (IOException e) {
                     logger.error("Error opening the browser", e);
                 } catch (URISyntaxException e) {
@@ -83,47 +100,7 @@ public class CopyrightPanel extends JPanel {
                 }
             }
         });
-        this.agreement = new JLabel("<html><a href=\"\">About SourceSquare</a></html>");
-        this.agreement.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-        this.agreement.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        this.agreement.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-
-            @Override
-            public void mousePressed(MouseEvent e) {}
-
-            @Override
-            public void mouseExited(MouseEvent e) {}
-
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Desktop.getDesktop().browse(new URI("https://sourcesquare.antepedia.com/about.html"));
-                } catch (IOException ex) {
-                    logger.error("Error opening the browser", ex);
-                } catch (URISyntaxException ex) {
-                    logger.error("Error opening the browser", ex);
-                }
-            }
-        });
-        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-        this.add(this.copyright);
-        this.add(this.agreement);
-        this.setSize(360, 25);
-    }
-
-    public JLabel getCopyright() {
-        return this.copyright;
-    }
-
-    public JLabel getAgreement() {
-        return this.agreement;
+        return label;
     }
 
 }

@@ -52,9 +52,11 @@
 	<div id="global-width">
 		<div id="header">
 			<div class="brackets">
-				<div id="logo" class="in-brackets">
-					<!-- Logo -->
-				</div>
+				<a href="http://www.sourcesquare.org">
+					<div id="logo" class="in-brackets">
+						<!-- Logo -->
+					</div>
+				</a>
 			</div>
 			<p id="catch-line">
 				Find out if you are<br />an <span class="blue">open source</span>
@@ -70,7 +72,7 @@
 			<div id="content-treemap"></div>
 			
 			<div id="sidebar">
-			<div id="advertising">* File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html" target="_blank">Antelink's products</a></div>
+			<div id="advertising">* File details available in <a href="http://www.antelink.com/product/antepedia-suite-tools.html">Antelink's products</a></div>
 				<div class="brackets">
 					<ul class="in-brackets">
 						<li>Total Files <span id="counter-total">
@@ -189,7 +191,7 @@
 				</div>
 				<div id="share">
 			<!-- 		<button id="shutdown-button">Shutdown</button> -->
-					<div  id="publish-button" class="addthis_toolbox addthis_default_style button" style="text-align: left; width:60px;cursor:hand;cursor: pointer; padding-left: 15px;">
+					<div  id="publish-button" class="addthis_toolbox addthis_default_style button">
 						<span id="publish-text">Share!</span><span id="countdots"><span id="disclaimer">
 								Clicking on this button will share your treemap and badges to our private server.<br /><br />
 								<span class="blue">Your treemap folder names will be removed</span> prior publication</span></span>
@@ -254,7 +256,7 @@
 		drawTreemap(json,true,${modelData.nodeLevel});
 		var iprogress_oss=progress_oss;
 		if(progress_oss==0){
-			iprogress_oss=0.1
+			iprogress_oss=0.001
 		}
 		pieChart({
 			'color' : [ '#1BA2FF', '#e6e6e6' ],
@@ -267,6 +269,13 @@
 				'values' : [ 100-progress_oss ]
 			} ]
 		},0);
+		$("a").each(function (i) {
+			if (this.getAttribute("href")) {
+		         this.onclick = function() {
+		             return !window.open(this.href);
+		      }
+			}
+	      });
 	});
 </script>
 

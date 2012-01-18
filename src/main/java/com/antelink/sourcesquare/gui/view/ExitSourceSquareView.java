@@ -55,7 +55,6 @@ public class ExitSourceSquareView extends JFrame {
     private static final long serialVersionUID = 4204275094395452904L;
     private final JPanel contentPane;
     private JPanel mainPanel;
-    private final JLabel exitButtonLabel;
     private final JLabel openButtonLabel;
 
     /**
@@ -67,7 +66,7 @@ public class ExitSourceSquareView extends JFrame {
         setTitle("SourceSquare");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 500, 190);
+        setBounds(100, 100, 500, 170);
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.WHITE);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -98,21 +97,20 @@ public class ExitSourceSquareView extends JFrame {
         this.openButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         panel.add(this.openButtonLabel);
 
-        Image exitButtonImage = Toolkit.getDefaultToolkit().getImage(
-                SourceSquareView.class.getResource("/ExitButton.png"));
-        this.exitButtonLabel = new JLabel(new ImageIcon(exitButtonImage));
-        this.exitButtonLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        panel.add(this.exitButtonLabel);
-
         JLabel exitLabel = new JLabel(
-                "<html><b>Close this window or click \"Exit\" to quit the application.</b>\n</html>");
+                "<html><b>Closing this window will quit the application</b></html>");
         exitLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
+
+        JLabel explainLabel = new JLabel(
+                "<html>(You won't be able to see or publish your results anymore)</html>");
+        explainLabel.setFont(new Font("Helvetica", Font.PLAIN, 13));
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(Color.WHITE);
-        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
+        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         textPanel.add(exitLabel, BorderLayout.CENTER);
+        textPanel.add(explainLabel, BorderLayout.CENTER);
 
         panel_1.add(textPanel, BorderLayout.CENTER);
 
@@ -135,10 +133,6 @@ public class ExitSourceSquareView extends JFrame {
 
     public void setMainPanel(JPanel mainPanel) {
         this.mainPanel = mainPanel;
-    }
-
-    public JLabel getExitButtonLabel() {
-        return this.exitButtonLabel;
     }
 
     public JLabel getOpenButtonLabel() {

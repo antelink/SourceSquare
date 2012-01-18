@@ -53,9 +53,11 @@
 	<div id="global-width">
 		<div id="header">
 			<div class="brackets">
-				<div id="logo" class="in-brackets">
-					<!-- Logo -->
-				</div>
+				<a href="http://www.sourcesquare.org">
+					<div id="logo" class="in-brackets">
+						<!-- Logo -->
+					</div>
+				</a>
 			</div>
 			<p id="catch-line">
 				Find out if you are<br />an <span class="blue">open source</span>
@@ -136,14 +138,29 @@
 		}
 	}
 
-	function updateElements(nbFilesScanned, nbOSFilesFound, nbFilesToScan) {
+	function updateBarChart(nbFilesScanned, nbFilesToScan) {
 		var progress_total=0;
 		if (!counting_) {
 			progress_total = 5 + (nbFilesScanned * 95) / nbFilesToScan;
 		}
+		var json = {
+			'color' : [ '#9C470E', '#e6e6e6' ],
+			'label' : [ 'Progress', 'Left' ],
+			'values' : [ {
+				'label' : 'Progress',
+				'values' : [ Math.round(progress_total),
+						Math.round(100 - progress_total) ]
+			} ]
+
+		};
+		barChart.updateJSON(json);
+	}
+	
+	function updatePieChart(nbFilesScanned, nbOSFilesFound) {
 		progress_oss = Math.round((nbOSFilesFound * 100) / nbFilesScanned);
+		
 		if (isNaN(progress_oss) || progress_oss == 0) {
-			progress_oss = 0.1;
+			progress_oss = 0.001;
 		}
 		var json = {
 			'color' : [ '#1BA2FF', '#e6e6e6' ],
@@ -156,18 +173,7 @@
 				'values' : [ 100 - progress_oss ]
 			} ]
 		};
-		var json2 = {
-			'color' : [ '#9C470E', '#e6e6e6' ],
-			'label' : [ 'Progress', 'Left' ],
-			'values' : [ {
-				'label' : 'Progress',
-				'values' : [ Math.round(progress_total),
-						Math.round(100 - progress_total) ]
-			} ]
-
-		};
 		pieChart.updateJSON(json);
-		barChart.updateJSON(json2);
 	}
 	
 	
@@ -179,13 +185,14 @@
 				if (data.progressState == 'INITIALIZING') {
 					$("#scanningtext").text('step 1: counting files...');
 				} else {
-					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank">Antepedia</a>...');
+					$("#scanningtext").replaceWith('step 2: querying <a href="http://www.antepedia.com" target="_blank>Antepedia</a>...');
 				}
 				$("#counter-total").text(data.displayedFilesScannedString+" / "+data.nbFilesToScanString);
 				$("#counter-opensource").text(data.nbOSFilesFoundString);
 				continue_ = (data.progressState != 'COMPLETE');
 				counting_ = (data.progressState == 'INITIALIZING');
-				updateElements(data.displayedFilesScanned,data.nbOSFilesFound,data.nbFilesToScan, counting_);	
+				updateBarChart(data.displayedFilesScanned,data.nbFilesToScan);	
+				updatePieChart(data.nbFilesScanned,data.nbOSFilesFound);
 				
 			},
 			complete : function() {
@@ -207,13 +214,21 @@
 			'label' : [ 'Open Source' ],
 			'values' : [ {
 				'label' : 'op',
-				'values' : [ 0.1 ]
+				'values' : [ 0.001 ]
 			}, {
 				'label' : 'nop',
 				'values' : [ 100 ]
 			} ]
 		});
 		barChart = barChart();
+		$("a").each(function (i) {
+			if (this.getAttribute("href")) {
+		         this.onclick = function() {
+		             return !window.open(this.href);
+		      }
+			}
+	      });
+
 		setTimeout("executeQuery()", 10);
 	});
 </script>
