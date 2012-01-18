@@ -189,7 +189,7 @@
 				</div>
 				<div id="share">
 			<!-- 		<button id="shutdown-button">Shutdown</button> -->
-					<div  id="publish-button" class="addthis_toolbox addthis_default_style button" style="text-align: left; width:60px;cursor:hand;cursor: pointer; padding-left: 15px;">
+					<div  id="publish-button" class="addthis_toolbox addthis_default_style button">
 						<span id="publish-text">Share!</span><span id="countdots"><span id="disclaimer">
 								Clicking on this button will share your treemap and badges to our private server.<br /><br />
 								<span class="blue">Your treemap folder names will be removed</span> prior publication</span></span>

@@ -109,6 +109,14 @@ a:hover {
 	padding: 8px 18px;
 }
 
+#publish-button {
+	text-align: center; 
+	width: 60px;
+	cursor: hand;
+	cursor: pointer; 
+	padding-left: 15px;
+}
+
 /* Layout 
 ---------------*/
 
