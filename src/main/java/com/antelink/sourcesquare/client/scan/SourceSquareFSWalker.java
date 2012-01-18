@@ -144,9 +144,7 @@ public class SourceSquareFSWalker {
 
             }
         }
-        if (!toAnalyze.isEmpty()) {
-            analyzeMap(toAnalyze);
-        }
+        analyzeMap(toAnalyze);
 
         while (!allProcessDone()) {
             synchronized (this.lock) {
@@ -161,6 +159,9 @@ public class SourceSquareFSWalker {
 
     private synchronized void analyzeMap(HashMap<String, String> tempMap)
             throws InterruptedException {
+        if (tempMap == null || tempMap.isEmpty()) {
+            return;
+        }
         ProcessWorker worker = null;
         while ((worker = getAvailableProcessor()) == null) {
             synchronized (this.lock) {
