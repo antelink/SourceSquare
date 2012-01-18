@@ -265,7 +265,7 @@ function drawTreemap(json, option, nodeLevel) {
 					nbOSFiles = 0;
 				}
 				if (option) {
-					var html = '<div><i>' + name +'</i><span style="font-size:10px;"><div>&#35; Files: '+nbFiles+' <b>*</b></div><div>&#35; Open source files: '+nbOSFiles+ ' <b>*</b></span></div></div>';
+					var html = '<div><i>' + name +'</i><span style="font-size:10px;"><div>&#35; Files: <b>'+nbFiles+'</b></div><div>&#35; Open source files: <b>'+nbOSFiles+ '</b> </span></div>File details available in Antelink products</div>';
 					//var html = "<div>"+ name+"</div>";
 					tip.innerHTML = html;
 				}
