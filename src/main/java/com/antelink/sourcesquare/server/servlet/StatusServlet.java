@@ -62,17 +62,17 @@ public class StatusServlet extends HttpServlet {
 
     private int computeDisplayedFilesScanned() {
         long timeSinceStart = new Date().getTime() - ScanStatus.INSTANCE.getInitTime();
-        long timeSinceLastScan = ScanStatus.INSTANCE.getLastUpdateTime()
+        long timeUntilLastScan = ScanStatus.INSTANCE.getLastUpdateTime()
                 - ScanStatus.INSTANCE.getInitTime();
-        if (timeSinceLastScan <= 0) {
+        if (timeUntilLastScan <= 0) {
             return ScanStatus.INSTANCE.getDisplayedFilesScanned();
         }
-        int displayedfilesScanned = (int) (timeSinceStart * ScanStatus.INSTANCE.getNbFilesScanned() / timeSinceLastScan);
-        this.logger.info("timeSinceStart: " + timeSinceStart);
-        this.logger.info("timeSinceLastScan: " + timeSinceLastScan);
-        this.logger.info("NbFilesScanned: " + ScanStatus.INSTANCE.getNbFilesScanned());
-        this.logger.info("displayedFilesScanned: " + displayedfilesScanned);
-        this.logger.info("NbQueryingFiles: " + ScanStatus.INSTANCE.getNbQueryingFiles());
+        int displayedfilesScanned = (int) (timeSinceStart * ScanStatus.INSTANCE.getNbFilesScanned() / timeUntilLastScan);
+        this.logger.debug("timeSinceStart: " + timeSinceStart);
+        this.logger.debug("timeUntilLastScan: " + timeUntilLastScan);
+        this.logger.debug("NbFilesScanned: " + ScanStatus.INSTANCE.getNbFilesScanned());
+        this.logger.debug("displayedFilesScanned: " + displayedfilesScanned);
+        this.logger.debug("NbQueryingFiles: " + ScanStatus.INSTANCE.getNbQueryingFiles());
         if (displayedfilesScanned > ScanStatus.INSTANCE.getNbFilesScanned()
                 + ScanStatus.INSTANCE.getNbQueryingFiles()
                 || displayedfilesScanned > ScanStatus.INSTANCE.getNbFilesToScan()

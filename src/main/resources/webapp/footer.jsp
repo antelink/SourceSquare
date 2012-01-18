@@ -26,7 +26,7 @@
 
 --%>
 <div id="footer">
-	<a href="http://www.antelink.com/" target="_blank">
+	<a href="http://www.antelink.com/">
 		<div id="footer-logo">
 			<!-- Antelink logo -->
 		</div>

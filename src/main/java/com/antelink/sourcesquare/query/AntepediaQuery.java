@@ -44,29 +44,31 @@ public class AntepediaQuery extends RestClient {
 
     private final AntepediaLocations locations = new AntepediaLocations();
 
-    public List<ResultEntry> getResults(Map<String, String> files) throws RestClientException, JsonGenerationException,
-            JsonMappingException, IOException {
+    public List<ResultEntry> getResults(Map<String, String> files) throws RestClientException,
+            JsonGenerationException, JsonMappingException, IOException {
+
         ResponseObject response = getResponseObjects(files.values());
 
         if (response.hasError()) {
             response.getError().getErrorCode();
             logger.error("Error getting the results from the antepedia server : "
                     + response.getError().getErrorMessage());
-            logger.error("Remote service returned error code: " + response.getError().getErrorCode());
+            logger.error("Remote service returned error code: "
+                    + response.getError().getErrorCode());
         }
 
         return response.getResults();
     }
 
-    private ResponseObject getResponseObjects(Collection<String> hashes) throws JsonGenerationException,
-            JsonMappingException, IOException {
+    private ResponseObject getResponseObjects(Collection<String> hashes)
+            throws JsonGenerationException, JsonMappingException, IOException {
         try {
             String queryUrl = this.locations.getBinaryBatchQueryUrl();
             ObjectMapper mapper = new ObjectMapper();
             String map = mapper.writeValueAsString(hashes);
-            logger.info("contacting server " + queryUrl);
-            ResponseObject postForObject = getTemplate(this.locations.getBaseDomain()).postForObject(queryUrl, map,
-                    ResponseObject.class);
+            logger.info("contacting server " + queryUrl + " with " + hashes.size() + " hashs");
+            ResponseObject postForObject = getTemplate(this.locations.getBaseDomain())
+                    .postForObject(queryUrl, map, ResponseObject.class);
             logger.info("response received");
             return postForObject;
         } catch (UnsupportedEncodingException e) {
@@ -74,5 +76,4 @@ public class AntepediaQuery extends RestClient {
             return null;
         }
     }
-
 }
