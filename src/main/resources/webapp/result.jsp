@@ -254,9 +254,12 @@
 		bindButtons();
 		var json = ${treemapData};
 		drawTreemap(json,true,${modelData.nodeLevel});
-		var iprogress_oss=progress_oss;
+		
 		if(progress_oss==0){
-			iprogress_oss=0.001
+			progress_oss=0.001
+		}
+		if (progress_oss >= 100) {
+			progress_oss = 99.999;
 		}
 		pieChart({
 			'color' : [ '#1BA2FF', '#e6e6e6' ],

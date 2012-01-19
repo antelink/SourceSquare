@@ -162,6 +162,9 @@
 		if (isNaN(progress_oss) || progress_oss == 0) {
 			progress_oss = 0.001;
 		}
+		if (progress_oss == 100) {
+			progress_oss = 99.999;
+		}
 		var json = {
 			'color' : [ '#1BA2FF', '#e6e6e6' ],
 			'label' : [ 'Files' ],

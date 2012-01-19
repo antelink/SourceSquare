@@ -67,6 +67,9 @@ function pieChart(json,offset) {
 				if(progress_oss==0.001){
 					uprogress_oss=0;
 				}
+				if(progress_oss==99.999){
+					uprogress_oss=100;
+				}
 				tip.innerHTML = "<b>Open source</b>: " +uprogress_oss+"%";
 			}
 		}

@@ -76,8 +76,13 @@ public class SourceSquare {
 
         ServerController.bind(eventBus);
         if (args.length != 0) {
-
             final File toScan = new File(args[0]);
+
+            if (!toScan.isDirectory()) {
+                logger.error("The argument is not a directory");
+                logger.info("exiting SourceSquare");
+                System.exit(0);
+            }
 
             eventBus.fireEvent(new StartScanEvent(toScan));
 
