@@ -39,11 +39,21 @@ function goToNode(nodeId) {
 	tm.busy = true;
 	tm.events.hoveredNode = false;
 	if (nodeId == tm.root) {
-		var that = tm, config = tm.config, graph = tm.graph, parents = node
-				.getParents(), parent = node, clickedNode = node, previousClickedNode = tm.clickedNode;
+		var that = tm, 
+		config = tm.config, 
+		graph = tm.graph, 
+		parents = node.getParents(), 
+		parent = node, 
+		clickedNode = node,
+		previousClickedNode = tm.clickedNode;
 	} else {
-		var that = tm, config = tm.config, graph = tm.graph, parents = node
-				.getParents(), parent = parents[0], clickedNode = parent, previousClickedNode = tm.clickedNode;
+		var that = tm, 
+		config = tm.config, 
+		graph = tm.graph, 
+		parents = node.getParents(), 
+		parent = parents[0], 
+		clickedNode = parent, 
+		previousClickedNode = tm.clickedNode;
 	}
 
 	// final plot callback
@@ -278,7 +288,7 @@ function drawTreemap(json, option, nodeLevel) {
 
 		request : function(nodeId, level, onComplete) {
 			var subtree = $jit.json.getSubtree(clone(json), nodeId);
-			$jit.json.prune(subtree, nodeLevel);
+			$jit.json.prune(subtree, level);
 			onComplete.onComplete(nodeId, subtree);
 		},
 
