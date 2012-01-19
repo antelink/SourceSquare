@@ -39,21 +39,11 @@ function goToNode(nodeId) {
 	tm.busy = true;
 	tm.events.hoveredNode = false;
 	if (nodeId == tm.root) {
-		var that = tm, 
-		config = tm.config, 
-		graph = tm.graph, 
-		parents = node.getParents(), 
-		parent = node, 
-		clickedNode = node,
-		previousClickedNode = tm.clickedNode;
+		var that = tm, config = tm.config, graph = tm.graph, parents = node
+				.getParents(), parent = node, clickedNode = node, previousClickedNode = tm.clickedNode;
 	} else {
-		var that = tm, 
-		config = tm.config, 
-		graph = tm.graph, 
-		parents = node.getParents(), 
-		parent = parents[0], 
-		clickedNode = parent, 
-		previousClickedNode = tm.clickedNode;
+		var that = tm, config = tm.config, graph = tm.graph, parents = node
+				.getParents(), parent = parents[0], clickedNode = parent, previousClickedNode = tm.clickedNode;
 	}
 
 	// final plot callback
@@ -206,117 +196,118 @@ function drawTreemap(json, option, nodeLevel) {
 		useGradients = nativeCanvasSupport;
 		animate = !(iStuff || !nativeCanvasSupport);
 	})();
-	tm = new $jit.TM.Squarified({
-		// where to inject the visualization
-		injectInto : 'content-treemap',
-		// parent box title heights
-		titleHeight : 4,
-		// show only one tree level
-		levelsToShow : nodeLevel,
-		// enable animations
-		animate : animate,
-		// box offsets
-		offset : 0,
-		// Attach left and right click events
-		Events : {
-			enable : true,
-			onClick : function(node) {
-				if (!node.data.isFileSet) {
-					if (node) {
-						pushNodeName(node);
-						tm.enter(node);
+	tm = new $jit.TM.Squarified(
+			{
+				// where to inject the visualization
+				injectInto : 'content-treemap',
+				// parent box title heights
+				titleHeight : 4,
+				// show only one tree level
+				levelsToShow : nodeLevel,
+				// enable animations
+				animate : animate,
+				// box offsets
+				offset : 0,
+				// Attach left and right click events
+				Events : {
+					enable : true,
+					onClick : function(node) {
+						if (!node.data.isFileSet) {
+							if (node) {
+								pushNodeName(node);
+								tm.enter(node);
+							}
+						} else {
+							var parents = node.getParents();
+							if (parents.length != 0) {
+								pushNodeName(parents[0]);
+								tm.enter(parents[0]);
+							}
+						}
+						tm.refresh();
+					},
+					onRightClick : function() {
+						if (tm.clickedNode) {
+							var parents = tm.clickedNode.getParents();
+							if (parents.length != 0) {
+								tm.out();
+								pushNodeName(parents[0]);
+							}
+						}
+						tm.refresh();
 					}
-				}
-				else{
-					var parents = node.getParents();
-					if (parents.length != 0) {
-						pushNodeName(parents[0]);
-						tm.enter(parents[0]);
+				},
+				duration : 10,
+				// Enable tips
+				Tips : {
+					enable : true,
+					// add positioning offsets
+					offsetX : 20,
+					offsetY : 20,
+					// implement the onShow method to
+					// add content to the tooltip when a node
+					// is hovered
+					onShow : function(tip, node, isLeaf, domElement) {
+						var html;
+						var name;
+						if (node.data.isFileSet) {
+							var parents = node.getParents();
+							name = getFullPath(parents[0], tm.clickedNode);
+						} else {
+							name = getFullPath(node, tm.clickedNode);
+						}
+						var nbFiles;
+						var nbOSFiles;
+						if ($jit.json.getSubtree(ijson, node.id)) {
+							nbFiles = $jit.json.getSubtree(ijson, node.id).cumulatedFiles;
+							nbOSFiles = $jit.json.getSubtree(ijson, node.id).cumulatedOSFiles;
+						} else {
+							nbFiles = 0;
+							nbOSFiles = 0;
+						}
+						var path='';
+						if (option) {
+							path='<i>' + name +'</i>';
+						}
+						var html = '<div>'+path+'<span style="font-size:10px;"><div>&#35; Files: <b>'+nbFiles+'</b></div><div>&#35; Open source files: <b>'+nbOSFiles+ '</b> </span></div>File details available in Antelink products</div>';
+						tip.innerHTML = html;
+					},
+					onHide : function() {
+
 					}
-				}
-				tm.refresh();
-			},
-			onRightClick : function() {
-				if (tm.clickedNode) {
-					var parents = tm.clickedNode.getParents();
-					if (parents.length != 0) {
-						tm.out();
-						pushNodeName(parents[0]);
+				},
+
+				request : function(nodeId, level, onComplete) {
+					var subtree = $jit.json.getSubtree(clone(json), nodeId);
+					$jit.json.prune(subtree, level);
+					onComplete.onComplete(nodeId, subtree);
+				},
+
+				onCreateLabel : function(domElement, node) {
+					if (node.data.isFileSet) {
+						var parents = node.getParents();
+						var parent = parents[0];
+						domElement.onmouseover = function() {
+							element = document.getElementById(parents[0].id);
+							element.style.border = '1px solid #9FD4FF';
+						};
+						domElement.onmouseout = function() {
+							element = document.getElementById(parents[0].id);
+							element.style.border = '0px solid transparent';
+						};
+						return;
 					}
+					var style = domElement.style;
+					style.display = '';
+					style.border = '0px solid transparent';
+					domElement.onmouseover = function() {
+						style.border = '1px solid #9FD4FF';
+					};
+					domElement.onmouseout = function() {
+						style.border = '0px solid transparent';
+					};
 				}
-				tm.refresh();
-			}
-		},
-		duration : 10,
-		// Enable tips
-		Tips : {
-			enable : option,
-			// add positioning offsets
-			offsetX : 20,
-			offsetY : 20,
-			// implement the onShow method to
-			// add content to the tooltip when a node
-			// is hovered
-			onShow : function(tip, node, isLeaf, domElement) {
-				var html;
-				var name;
-				if (node.data.isFileSet) {
-					var parents = node.getParents();
-					name = getFullPath(parents[0], tm.clickedNode);
-				} else {
-					name = getFullPath(node, tm.clickedNode);
-				}
-				var nbFiles;
-				var nbOSFiles;
-				if($jit.json.getSubtree(ijson,node.id)){
-					nbFiles = $jit.json.getSubtree(ijson,node.id).cumulatedFiles;
-					nbOSFiles = $jit.json.getSubtree(ijson,node.id).cumulatedOSFiles;
-				}else{
-					nbFiles = 0;
-					nbOSFiles = 0;
-				}
-				if (option) {
-					var html = '<div><i>' + name +'</i><span style="font-size:10px;"><div>&#35; Files: <b>'+nbFiles+'</b></div><div>&#35; Open source files: <b>'+nbOSFiles+ '</b> </span></div>File details available in Antelink products</div>';
-					//var html = "<div>"+ name+"</div>";
-					tip.innerHTML = html;
-				}
-			},
-			onHide : function() {
-
-			}
-		},
-
-		request : function(nodeId, level, onComplete) {
-			var subtree = $jit.json.getSubtree(clone(json), nodeId);
-			$jit.json.prune(subtree, level);
-			onComplete.onComplete(nodeId, subtree);
-		},
-
-		onCreateLabel : function(domElement, node) {
-			if (node.data.isFileSet) {
-				var parents = node.getParents();
-				var parent = parents[0];
-				domElement.onmouseover = function() {
-					element = document.getElementById(parents[0].id);
-					element.style.border = '1px solid #9FD4FF';
-				};
-				domElement.onmouseout = function() {
-					element = document.getElementById(parents[0].id);
-					element.style.border = '0px solid transparent';
-				};
-				return;
-			}
-			var style = domElement.style;
-			style.display = '';
-			style.border = '0px solid transparent';
-			domElement.onmouseover = function() {
-				style.border = '1px solid #9FD4FF';
-			};
-			domElement.onmouseout = function() {
-				style.border = '0px solid transparent';
-			};
-		}
-	});
+			});
 	jsonA = json;
 	jsonB = pjson;
 	$jit.json.prune(pjson, nodeLevel);
