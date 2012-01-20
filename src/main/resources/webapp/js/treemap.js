@@ -33,75 +33,8 @@ var JsonB;
 
 function goToNode(nodeId) {
 	var node = tm.graph.getNode(nodeId);
-
-	if (tm.busy)
-		return;
-	tm.busy = true;
-	tm.events.hoveredNode = false;
-	if (nodeId == tm.root) {
-		var that = tm, config = tm.config, graph = tm.graph, parents = node
-				.getParents(), parent = node, clickedNode = node, previousClickedNode = tm.clickedNode;
-	} else {
-		var that = tm, config = tm.config, graph = tm.graph, parents = node
-				.getParents(), parent = parents[0], clickedNode = parent, previousClickedNode = tm.clickedNode;
-	}
-
-	// final plot callback
-	callback = {
-		onComplete : function() {
-			that.clickedNode = parent;
-			if (config.request) {
-				that.requestNodes(parent, {
-					onComplete : function() {
-						that.compute();
-						that.plot();
-						that.busy = false;
-					}
-				});
-			} else {
-				that.compute();
-				that.plot();
-				that.busy = false;
-			}
-		}
-	};
-	// prune tree
-	if (config.levelsToShow > 0)
-		tm.geom.setRightLevelToShow(parent);
-	// animate node positions
+	tm.out(node);	
 	pushNodeName(node);
-	if (config.animate) {
-		tm.clickedNode = clickedNode;
-		tm.compute('end');
-		// animate the visible subtree only
-		tm.clickedNode = previousClickedNode;
-		tm.fx.animate({
-			modes : [ 'linear', 'node-property:width:height' ],
-			duration : 1000,
-			onComplete : function() {
-				// animate the parent subtree
-				that.clickedNode = clickedNode;
-				// change nodes alpha
-				graph.eachNode(function(n) {
-					n.setDataset([ 'current', 'end' ], {
-						'alpha' : [ 0, 1 ]
-					});
-				}, "ignore");
-				previousClickedNode.eachSubgraph(function(node) {
-					node.setData('alpha', 1);
-				}, "ignore");
-				that.fx.animate({
-					duration : 500,
-					modes : [ 'node-property:alpha' ],
-					onComplete : function() {
-						callback.onComplete();
-					}
-				});
-			}
-		});
-	} else {
-		callback.onComplete();
-	}
 }
 function pushNodeName(node) {
 	var names = "";

@@ -14984,8 +14984,9 @@ TM.Base = {
   Sets the parent node of the current selected node as root.
 
  */
-  out: function(){
-    if(this.busy) return;
+  out: function(node){
+	  
+    if(this.busy && !node) return;
     this.busy = true;
     this.events.hoveredNode = false;
     var that = this,
@@ -14996,6 +14997,7 @@ TM.Base = {
         parent = parents[0],
         clickedNode = parent,
         previousClickedNode = this.clickedNode;
+    
     
     //if no parents return
     if(!parent) {
@@ -15009,9 +15011,14 @@ TM.Base = {
         if(config.request) {
           that.requestNodes(parent, {
             onComplete: function() {
-              that.compute();
-              that.plot();
-              that.busy = false;
+            	if(node && clickedNode!=node){
+            		that.out(node);
+            		that.busy = false;
+            	}else{
+            		that.compute();
+            		that.plot();
+            		that.busy = false;
+            	}
             }
           });
         } else {
@@ -15025,7 +15032,8 @@ TM.Base = {
     if (config.levelsToShow > 0)
       this.geom.setRightLevelToShow(parent);
     //animate node positions
-    if(config.animate) {
+    if((config.animate && !node) || (config.animate && clickedNode==node)) {
+    	console.log("animate");
       this.clickedNode = clickedNode;
       this.compute('end');
       //animate the visible subtree only
