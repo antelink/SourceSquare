@@ -232,14 +232,16 @@
 			} ]
 		});
 		barChart = barChart();
-		$("a").each(function (i) {
+        var aclick=function (i) {
 			if (this.getAttribute("href")) {
 		         this.onclick = function() {
 		             return !window.open(this.href);
 		      }
 			}
-	      });
-
+	      };
+		$("#footer a").each(aclick);
+		$("#wrapper a").each(aclick);
+		$("#header a").each(aclick);
 		setTimeout("executeQuery()", 10);
 	});
 </script>

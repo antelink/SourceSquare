@@ -25,6 +25,7 @@
  */
 package com.antelink.sourcesquare.server;
 
+import com.antelink.sourcesquare.server.servlet.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mortbay.jetty.Server;
@@ -39,13 +40,6 @@ import com.antelink.sourcesquare.client.scan.ScanStatus;
 import com.antelink.sourcesquare.event.base.EventBus;
 import com.antelink.sourcesquare.event.events.SourceSquareResultsReadyEvent;
 import com.antelink.sourcesquare.event.handlers.SourceSquareResultsReadyEventHandler;
-import com.antelink.sourcesquare.server.servlet.ErrorHandler;
-import com.antelink.sourcesquare.server.servlet.PublishServlet;
-import com.antelink.sourcesquare.server.servlet.QuaptchaServlet;
-import com.antelink.sourcesquare.server.servlet.ResultFilter;
-import com.antelink.sourcesquare.server.servlet.ShutdownServlet;
-import com.antelink.sourcesquare.server.servlet.StatusServlet;
-import com.antelink.sourcesquare.server.servlet.TimeServlet;
 import com.google.gson.Gson;
 
 public class EmbeddedServer {
@@ -101,6 +95,10 @@ public class EmbeddedServer {
         logger.debug("adding quapcha servlet");
         ServletHolder quaptchaService = new ServletHolder(new QuaptchaServlet());
         this.servletContext.addServlet(quaptchaService, "/check/captcha");
+
+        logger.debug("adding quapcha servlet");
+        ServletHolder feedbackService = new ServletHolder(new FeedbackServlet());
+        this.servletContext.addServlet(feedbackService, "/add/feedback");
 
         this.contexts.addHandler(this.servletContext);
 

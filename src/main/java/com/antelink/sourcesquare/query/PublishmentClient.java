@@ -39,8 +39,16 @@ public class PublishmentClient extends RestClient {
     private final static Log logger = LogFactory.getLog(PublishmentClient.class);
 
     private static final String SOURCESQUARE_SERVER_DOMAIN = System.getProperty(
-            "sourcesquare.domain", "sourcesquare.antepedia.com");
+        "sourcesquare.domain", "sourcesquare.antepedia.com");
+
     Gson gson = new Gson();
+
+    public void publish(Feedback feedback) {
+        RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
+        String url = "https://" + SOURCESQUARE_SERVER_DOMAIN + "/service/store/feedback";
+        logger.info(url);
+        template.postForObject(url, feedback, Boolean.class);
+    }
 
     public String publish(SourceSquareResults results) {
         RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
@@ -62,12 +70,4 @@ public class PublishmentClient extends RestClient {
         return nresults;
     }
 
-    public String feedback(Feedback feedback) {
-        RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
-
-        String request = this.gson.toJson(feedback);
-        String url = "https://" + SOURCESQUARE_SERVER_DOMAIN + "/publish";
-        logger.info(url);
-        return template.postForObject(url, request, String.class);
-    }
 }
