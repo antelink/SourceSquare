@@ -38,11 +38,16 @@
 
 <title>SourceSquare</title>
 
-<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.7.1.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script> -->
 <!--[if IE]><script language="javascript" type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 <script type="text/javascript" src="js/jit.js"></script>
 <script type="text/javascript" src="js/introCharts.js"></script>
+<script type="text/javascript" src="js/lib/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/lib/modernizr-2.0.6.min.js"></script>
+<script type="text/javascript" src="js/feedback.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/compiled/style2.css">
 <link rel="stylesheet" href="css/home.css">
 <link type="text/css" href="css/shaper.css" rel="stylesheet" />
 
@@ -65,7 +70,9 @@
 			</p>
 		</div>
 		<!--/header-->
-		
+		<aside id="contact">
+			<a href="#" id="feedback-popup">Feedback</a> 
+		</aside>
 		
 		<div id="wrapper">
 			<div id="scanning">
@@ -92,6 +99,7 @@
 			</div>
 		</div>
 		<!--/wrapper-->
+		<%@ include file="feedback.jsp"%>
 		<%@ include file="footer.jsp"%>
 	</div>
 	<!--/global-width-->

@@ -65,7 +65,7 @@ public class EventBus {
                 Runnable runner = new Runnable() {
 
                     @Override
-                    public void run() {
+                    public void run() { 
                         event.dispatch((T) handler);
 
                     }

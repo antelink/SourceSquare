@@ -45,41 +45,41 @@ import com.antelink.sourcesquare.event.handlers.SourceSquareResultsReadyEventHan
 
 public class ResultFilter implements Filter {
 
-	private static final Log logger = LogFactory.getLog(ResultFilter.class);
+    private static final Log logger = LogFactory.getLog(ResultFilter.class);
 
-	private SourceSquareResults sourceSquareResult;
+    private SourceSquareResults sourceSquareResult;
 
-	public ResultFilter(EventBus eventBus) {
-		eventBus.addHandler(SourceSquareResultsReadyEvent.TYPE, new SourceSquareResultsReadyEventHandler() {
-			@Override
-			public String getId() {
-				return "Embedded server result filter";
-			}
+    public ResultFilter(EventBus eventBus) {
+        eventBus.addHandler(SourceSquareResultsReadyEvent.TYPE,
+                new SourceSquareResultsReadyEventHandler() {
+                    @Override
+                    public String getId() {
+                        return "Embedded server result filter";
+                    }
 
-			@Override
-			public void handle(SourceSquareResults results) {
-				sourceSquareResult = results;
-			}
-		});
-	}
+                    @Override
+                    public void handle(SourceSquareResults results) {
+                        ResultFilter.this.sourceSquareResult = results;
+                    }
+                });
+    }
 
-	@Override
-	public void destroy() {
-	}
+    @Override
+    public void destroy() {}
 
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException,
-			ServletException {
-		if (sourceSquareResult == null) {
-			((HttpServletResponse) resp).sendRedirect("index.jsp");
-		} else {
-			logger.debug("show results");
-			chain.doFilter(req, resp);
-		}
-	}
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+        if (this.sourceSquareResult == null) {
+            logger.debug("filter results");
+            ((HttpServletResponse) resp).sendRedirect("index.jsp");
+        } else {
+            logger.debug("show results");
+            chain.doFilter(req, resp);
+        }
+    }
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {}
 
 }
