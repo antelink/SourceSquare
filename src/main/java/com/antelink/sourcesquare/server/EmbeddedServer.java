@@ -41,6 +41,7 @@ import com.antelink.sourcesquare.event.events.SourceSquareResultsReadyEvent;
 import com.antelink.sourcesquare.event.handlers.SourceSquareResultsReadyEventHandler;
 import com.antelink.sourcesquare.server.servlet.ErrorHandler;
 import com.antelink.sourcesquare.server.servlet.PublishServlet;
+import com.antelink.sourcesquare.server.servlet.QuaptchaServlet;
 import com.antelink.sourcesquare.server.servlet.ResultFilter;
 import com.antelink.sourcesquare.server.servlet.ShutdownServlet;
 import com.antelink.sourcesquare.server.servlet.StatusServlet;
@@ -96,6 +97,10 @@ public class EmbeddedServer {
         logger.debug("adding time servlet");
         ServletHolder timeService = new ServletHolder(new TimeServlet());
         this.servletContext.addServlet(timeService, "/time");
+
+        logger.debug("adding quapcha servlet");
+        ServletHolder quaptchaService = new ServletHolder(new QuaptchaServlet());
+        this.servletContext.addServlet(quaptchaService, "/check/captcha");
 
         this.contexts.addHandler(this.servletContext);
 

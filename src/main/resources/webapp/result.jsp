@@ -37,11 +37,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/treemap.css">
+<link rel="stylesheet" href="css/compiled/style2.css">
 <link type="text/css" href="css/shaper.css" rel="stylesheet" />
 <!--[if IE]><script language="javascript" type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 <script type="text/javascript" src="js/jit.js"></script>
 <script type="text/javascript" src="js/treemap.js"></script>
-<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script> -->
+<script type="text/javascript" src="js/lib/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/lib/modernizr-2.0.6.min.js"></script>
+<script type="text/javascript" src="js/feedback.js"></script>
 <script type="text/javascript" src="js/introCharts.js"></script>
 
 
@@ -50,6 +55,9 @@
 
 <body>
 	<div id="global-width">
+	<aside id="contact">
+				<a href="#" id="feedback-popup">Feedback</a> 
+			</aside>
 		<div id="header">
 			<div class="brackets">
 				<a href="http://www.sourcesquare.org">
@@ -58,6 +66,7 @@
 					</div>
 				</a>
 			</div>
+			
 			<p id="catch-line">
 				Find out if you are<br />an <span class="blue">open source</span>
 				freak or not!
@@ -200,6 +209,7 @@
 			</div>
 		</div>
 		<!--/wrapper-->
+			<%@ include file="feedback.jsp"%>
 		<%@ include file="footer.jsp" %>
 	</div>
 	<!--/global-width-->
@@ -272,13 +282,16 @@
 				'values' : [ 100-progress_oss ]
 			} ]
 		},0);
-		$("a").each(function (i) {
+		var aclick=function (i) {
 			if (this.getAttribute("href")) {
 		         this.onclick = function() {
 		             return !window.open(this.href);
 		      }
 			}
-	      });
+	      };
+		$("#footer a").each(aclick);
+		$("#wrapper a").each(aclick);
+		$("#header a").each(aclick);
 	});
 </script>
 

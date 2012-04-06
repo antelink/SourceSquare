@@ -31,21 +31,22 @@ import org.springframework.web.client.RestTemplate;
 
 import com.antelink.sourcesquare.SourceSquareResults;
 import com.antelink.sourcesquare.TreemapNode;
+import com.antelink.sourcesquare.server.servlet.Feedback;
 import com.google.gson.Gson;
 
 public class PublishmentClient extends RestClient {
 
     private final static Log logger = LogFactory.getLog(PublishmentClient.class);
 
-    private static final String SOURCESQUARE_SERVER_DOMAIN = System.getProperty("sourcesquare.domain",
-            "sourcesquare.antepedia.com");
+    private static final String SOURCESQUARE_SERVER_DOMAIN = System.getProperty(
+            "sourcesquare.domain", "sourcesquare.antepedia.com");
     Gson gson = new Gson();
-    
+
     public String publish(SourceSquareResults results) {
         RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
-        
-        String request = gson.toJson(cleanResults(results));
-        String url = "https://"  +SOURCESQUARE_SERVER_DOMAIN + "/publish";
+
+        String request = this.gson.toJson(cleanResults(results));
+        String url = "https://" + SOURCESQUARE_SERVER_DOMAIN + "/publish";
         logger.info(url);
         return template.postForObject(url, request, String.class);
     }
@@ -53,11 +54,20 @@ public class PublishmentClient extends RestClient {
     private SourceSquareResults cleanResults(SourceSquareResults results) {
         SourceSquareResults nresults = new SourceSquareResults();
         nresults.setBadges(results.getBadges());
-        String tree = gson.toJson(results.getRootNode());
-        TreemapNode copy=gson.fromJson(tree, TreemapNode.class);
+        String tree = this.gson.toJson(results.getRootNode());
+        TreemapNode copy = this.gson.fromJson(tree, TreemapNode.class);
         copy.clean();
         nresults.setRootNode(copy);
         nresults.setNodeLevel(results.getNodeLevel());
         return nresults;
+    }
+
+    public String feedback(Feedback feedback) {
+        RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
+
+        String request = this.gson.toJson(feedback);
+        String url = "https://" + SOURCESQUARE_SERVER_DOMAIN + "/publish";
+        logger.info(url);
+        return template.postForObject(url, request, String.class);
     }
 }
