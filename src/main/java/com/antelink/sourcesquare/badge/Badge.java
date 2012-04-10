@@ -26,11 +26,11 @@
 package com.antelink.sourcesquare.badge;
 
 public enum Badge {
-    OS_JEDI_MASTER("Open Source Jedi Master", "badge-jedi-master.png", "More than 80% of your files are open source"),
+    OS_SAMURAI("Open Source Samurai", "badge-samurai.png", "More than 80% of your files are open source"),
 
-    OS_JEDI_KNIGHT("Open Source Jedi Knight", "badge-jedi-knight.png", "More than 60% of your files are open source"),
+    OS_BLACKBELT("Open Source BlackBelt", "badge-blackbelt.png", "More than 60% of your files are open source"),
 
-    OS_PADAWAN("Open Source Padawan", "badge-padawan.png", "More than 40% of your files are open source"),
+    OS_TRAINEE("Open Source Trainee", "badge-trainee.png", "More than 40% of your files are open source"),
 
     OS_WHAT("Open What?", "badge-openwhat.png", "Less than 40% of your files are open source"),
 

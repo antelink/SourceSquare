@@ -64,7 +64,7 @@ public class TestBadgeProcessor {
 
 	@Test @Ignore
 	// Ignored test: too asynchronous to be trusted...
-	public void testBadgesOpenSourceJediMaster(){
+	public void testBadgesOpenSourceSamurai(){
 		Set<String> set=EasyMock.createMock(Set.class);
 		expect(set.size()).andReturn(8).andAnswer(new IAnswer<Integer>() {
 
@@ -83,7 +83,7 @@ public class TestBadgeProcessor {
 		
 		Collection<Badge> badges = processor.process();
 		Badge badge = badges.iterator().next();
-		assertEquals(Badge.OS_JEDI_MASTER,badge);
+		assertEquals(Badge.OS_SAMURAI,badge);
 	}
 	
 }

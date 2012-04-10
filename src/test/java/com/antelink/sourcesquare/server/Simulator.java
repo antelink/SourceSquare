@@ -93,7 +93,7 @@ public class Simulator implements Runnable {
         SourceSquareResults result = new SourceSquareResults();
         result.setRootNode(root);
         List<Badge> badges = new ArrayList<Badge>();
-        badges.add(Badge.OS_JEDI_KNIGHT);
+        badges.add(Badge.OS_BLACKBELT);
         badges.add(Badge.OLD);
         result.setBadges(badges);
         result.setNodeLevel(3);

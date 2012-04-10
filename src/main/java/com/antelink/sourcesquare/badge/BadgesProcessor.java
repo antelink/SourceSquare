@@ -313,13 +313,13 @@ public class BadgesProcessor {
     private Badge getOpenSourceBadge() {
         double percentual = this.files.size() == 0 ? 0.0 : (double) this.openSourceFiles / (double) this.files.size();
         if (percentual >= 0.8) {
-            return Badge.OS_JEDI_MASTER;
+            return Badge.OS_SAMURAI;
         }
         if (percentual >= 0.6) {
-            return Badge.OS_JEDI_KNIGHT;
+            return Badge.OS_BLACKBELT;
         }
         if (percentual >= 0.4) {
-            return Badge.OS_PADAWAN;
+            return Badge.OS_TRAINEE;
         }
         if (percentual > 0) {
             return Badge.OS_WHAT;
