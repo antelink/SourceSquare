@@ -291,7 +291,7 @@
 	      };
 		$("#footer a").each(aclick);
 		$("#wrapper a").each(aclick);
-		$("#header a").each(aclick);
+        $("#header a").each(aclick);
 	});
 </script>
 

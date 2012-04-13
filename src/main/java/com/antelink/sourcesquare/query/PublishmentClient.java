@@ -47,7 +47,12 @@ public class PublishmentClient extends RestClient {
         RestTemplate template = getTemplate(SOURCESQUARE_SERVER_DOMAIN);
         String url = "https://" + SOURCESQUARE_SERVER_DOMAIN + "/service/store/feedback";
         logger.info(url);
+        try{
         template.postForObject(url, feedback, Boolean.class);
+        }
+        catch(Throwable t){
+            logger.error("Error sending feedback",t);
+        }
     }
 
     public String publish(SourceSquareResults results) {
